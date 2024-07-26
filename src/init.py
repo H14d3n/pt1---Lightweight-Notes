@@ -1,4 +1,4 @@
-from tkinter import *
+import tkinter as tk
 import customtkinter
 import subprocess
 import os
@@ -8,6 +8,8 @@ customtkinter.set_appearance_mode("dark")
 customtkinter.set_default_color_theme("yellow")
 customtkinter.deactiviate_automatic_dpi_awareness()
 
+app = customtkinter.Ctk()
+
 def login_screen():
     root = customtkinter.CTk()
     
@@ -16,16 +18,24 @@ def login_screen():
     root.geometry('350x350')
     root.resizable(False, False)
     
-    title = customtkinter.CTkLabel(root, text="pt1" font=('Bold Calibri, 25'))
+    title = customtkinter.CTkLabel(root, font=('Bold Calibri, 25'))
     title.place(relx=0.3, rely=0.3)
     
     surname = customtkinter.CtkEntry(root, placeholder_text="Surname")
     surname.place(relx=1, rely=1)
     
+    login = customtkinter.CTkButton(root, placeholder_text="Login", command=login )
+    login.place(relx=1.3, rely=1.3)
     
-    def submit_pressed():
+    
+    def login():
+        if not len(surname.get()) == 0:
+            application()
+            
         
-    app = login_screen()    
+        
+def application():
+            
     app.mainloop()
     
     
