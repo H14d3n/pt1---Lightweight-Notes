@@ -16,4 +16,16 @@ def login_screen():
     root.geometry('350x350')
     root.resizable(False, False)
     
+    title = customtkinter.CTkLabel(root, text="pt1" font=('Bold Calibri, 25'))
+    title.place(relx=0.3, rely=0.3)
+    
+    surname = customtkinter.CtkEntry(root, placeholder_text="Surname")
+    surname.place(relx=1, rely=1)
+    
+    
+    def submit_pressed():
+        
+    app = login_screen()    
+    app.mainloop()
+    
     
