@@ -30,9 +30,11 @@ def login_screen():
     
     root.mainloop()
 
-def login(surname):
+def login(surname, root):
     if not len(surname.get())  == 0:
+        root.quit()
         application()
+        
         
 def application():
     app = ctk.CTk()
