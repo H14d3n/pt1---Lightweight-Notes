@@ -1,6 +1,7 @@
 import tkinter as tk
 import customtkinter as ctk
 import csv
+import pandas
 
 # Theme of Application
 ctk.set_appearance_mode("dark")
@@ -30,21 +31,27 @@ def login_screen():
     
 
 def login(surname, password):
+    # Check if user put in information, after that check which user and authentificate
     if not (len(surname.get()) and len(password.get())) == 0:
-        application()
-        
+        with open('login.csv', newline='') as csvfile:
+            reader = csv.reader(csvfile, delimiter=';')
+            for user in reader:
+                user = print(row['first_name'])
+                user_password = print(row['password'])
+            if (surname.get() and password.get() == user, user_password):
+                application()
 
 def application():
     for widget in app.winfo_children():
         widget.destroy()
     
-    app.title("pt1 - Lightweight Notes - Application")
+    app.title("pt1 - Lightweight Notes - ")
     app.geometry('500x500')
     
     label = ctk.CTkLabel(app, text="Welcome to the Application", font=('Bold Calibri', 25))
     label.place(relx=0.1, rely=0.1)
     
 
-# Start the login screen
+# Start the login screen everything else is initialised from there on
 login_screen()
 app.mainloop()
