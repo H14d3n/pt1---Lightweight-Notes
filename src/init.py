@@ -9,6 +9,7 @@ ctk.set_default_color_theme("blue")
 ctk.deactivate_automatic_dpi_awareness()
 
 runpath = os.getcwd()
+csv_file_path = f'{runpath}/src/login.csv'
 
 app = ctk.CTk()
 
@@ -31,15 +32,13 @@ def login_screen():
     login_button = ctk.CTkButton(app, text="Login", command=lambda: login(surname, password, csv_file_path))
     login_button.place(relx=0.1, rely=0.7, relwidth=0.8)
     
-    csv_file_path = f'{runpath}/src/login.csv'
-    
 
 def login(surname, password, csv_file_path):
     # Check if user put in information, after that check which user and authenticate
     if len(surname.get()) > 0 and len(password.get()) > 0:
         check_credentials(csv_file_path, surname, password)
     else:
-        print("Please enter both surname and password.")  
+        display_message("Please enter both surname and password.")  
         
                 
 def check_credentials(csv_file_path, surname, password):
@@ -49,7 +48,13 @@ def check_credentials(csv_file_path, surname, password):
             if row['first_name'] == surname.get() and row['password'] == password.get():
                 application()
                 return
-        print("Invalid credentials.")  
+        display_message("Invalid credentials.")  
+        
+        
+def display_message(message):
+    message_label = ctk.CTkLabel(app, text=message, font=('Bold Calibri', 12), text_color="red")
+    message_label.place(relx=0.1, rely=0.8, relwidth=0.8)
+    
 
 def application():
     for widget in app.winfo_children():
@@ -61,6 +66,7 @@ def application():
     label = ctk.CTkLabel(app, text="Welcome to the Application", font=('Bold Calibri', 25))
     label.place(relx=0.1, rely=0.1)
     
+
 # Start the login screen; everything else is initialized from there on
 login_screen()
 app.mainloop()
