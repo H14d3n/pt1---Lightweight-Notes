@@ -49,24 +49,24 @@ def check_credentials(csv_file_path, surname, password):
                 application()
                 return
         display_message("Invalid credentials.")  
-        
-        
-def display_message(message):
-    message_label = ctk.CTkLabel(app, text=message, font=('Bold Calibri', 12), text_color="red")
-    message_label.place(relx=0.1, rely=0.8, relwidth=0.8)
-    
-
-def application():
-    for widget in app.winfo_children():
-        widget.destroy()
-    
-    app.title("pt1 - Lightweight Notes")
-    app.geometry('500x500')
-    
-    label = ctk.CTkLabel(app, text="Welcome to the Application", font=('Bold Calibri', 25))
-    label.place(relx=0.1, rely=0.1)
-    
-
-# Start the login screen; everything else is initialized from there on
-login_screen()
-app.mainloop()
+         
+         
+def display_message(message): 
+    message_label = ctk.CTkLabel(app, text=message, font=('Bold Calibri', 12), text_color="red") 
+    message_label.place(relx=0.1, rely=0.8, relwidth=0.8) 
+     
+ 
+def application(): 
+    for widget in app.winfo_children(): 
+        widget.destroy() 
+     
+    app.title("pt1 - Lightweight Notes") 
+    app.geometry('500x500') 
+     
+    label = ctk.CTkLabel(app, text="Welcome to the Application", font=('Bold Calibri', 25)) 
+    label.place(relx=0.1, rely=0.1) 
+     
+ 
+# Start the login screen; everything else is initialized from there on 
+login_screen() 
+app.mainloop() 
