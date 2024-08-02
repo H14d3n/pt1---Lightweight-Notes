@@ -1,7 +1,7 @@
 import tkinter as tk
 import customtkinter as ctk
 import csv
-import pandas
+import os
 
 # Theme of Application
 ctk.set_appearance_mode("dark")
@@ -26,20 +26,28 @@ def login_screen():
     password.configure(show="*")
     password.place(relx=0.1, rely=0.5, relwidth=0.8)
     
-    login_button = ctk.CTkButton(app, text="Login", command=lambda: login(surname, password))
+    login_button = ctk.CTkButton(app, text="Login", command=lambda: login(surname, password, csv_file_path))
     login_button.place(relx=0.1, rely=0.7, relwidth=0.8)
     
+    csv_file_path = 'login.csv'
+    
 
-def login(surname, password):
-    # Check if user put in information, after that check which user and authentificate
-    if not (len(surname.get()) and len(password.get())) == 0:
-        with open('login.csv', newline='') as csvfile:
-            reader = csv.reader(csvfile, delimiter=';')
-            for user in reader:
-                user = print(row['first_name'])
-                user_password = print(row['password'])
-            if (surname.get() and password.get() == user, user_password):
+def login(surname, password, csv_file_path):
+    # Check if user put in information, after that check which user and authenticate
+    if len(surname.get()) > 0 and len(password.get()) > 0:
+        check_credentials(csv_file_path, surname, password)
+    else:
+        print("Please enter both surname and password.")  
+        
+                
+def check_credentials(csv_file_path, surname, password):
+    with open(csv_file_path, mode='r', newline='') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            if row['first_name'] == surname.get() and row['password'] == password.get():
                 application()
+                return
+        print("Invalid credentials.")  
 
 def application():
     for widget in app.winfo_children():
@@ -51,7 +59,6 @@ def application():
     label = ctk.CTkLabel(app, text="Welcome to the Application", font=('Bold Calibri', 25))
     label.place(relx=0.1, rely=0.1)
     
-
-# Start the login screen everything else is initialised from there on
+# Start the login screen; everything else is initialized from there on
 login_screen()
 app.mainloop()
