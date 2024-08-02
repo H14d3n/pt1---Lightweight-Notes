@@ -8,6 +8,8 @@ ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
 ctk.deactivate_automatic_dpi_awareness()
 
+runpath = os.getcwd()
+
 app = ctk.CTk()
 
 def login_screen():
@@ -29,7 +31,7 @@ def login_screen():
     login_button = ctk.CTkButton(app, text="Login", command=lambda: login(surname, password, csv_file_path))
     login_button.place(relx=0.1, rely=0.7, relwidth=0.8)
     
-    csv_file_path = 'login.csv'
+    csv_file_path = f'{runpath}/src/login.csv'
     
 
 def login(surname, password, csv_file_path):
@@ -53,7 +55,7 @@ def application():
     for widget in app.winfo_children():
         widget.destroy()
     
-    app.title("pt1 - Lightweight Notes - ")
+    app.title("pt1 - Lightweight Notes")
     app.geometry('500x500')
     
     label = ctk.CTkLabel(app, text="Welcome to the Application", font=('Bold Calibri', 25))
