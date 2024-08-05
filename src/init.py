@@ -2,11 +2,12 @@ import tkinter as tk
 import customtkinter as ctk
 import csv
 import os
+from CTkMenuBar import *
 
 # Theme of Application
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("blue")
-ctk.deactivate_automatic_dpi_awareness()
+
 
 runpath = os.getcwd()
 csv_file_path = f'{runpath}/src/login.csv'
@@ -63,9 +64,14 @@ def application():
      
     app.title("pt1 - Lightweight Notes") 
     app.geometry('500x500') 
-     
-    label = ctk.CTkLabel(app, text="Welcome to the Application", font=('Bold Calibri', 25)) 
-    label.place(relx=0.1, rely=0.1) 
+    app.resizable(True, True)
+    
+    menu = CTkMenuBar(master=app)
+    menu.add_cascade("Menu")
+    menu.add_cascade("Edit")
+    menu.add_cascade("Settings")
+    menu.add_cascade("About")
+    
      
  
 # Start the login screen; everything else is initialized from there on 
