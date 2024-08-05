@@ -63,7 +63,7 @@ def application():
         widget.destroy() 
      
     app.title("pt1 - Lightweight Notes") 
-    app.geometry('500x500') 
+    app.geometry('1024x768') 
     app.resizable(True, True)
     
     menu = CTkMenuBar(master=app)
