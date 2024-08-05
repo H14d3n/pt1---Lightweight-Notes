@@ -46,7 +46,6 @@ def check_credentials(csv_file_path, surname, password):
     with open(csv_file_path, mode='r', newline='') as file:
         reader = csv.DictReader(file, delimiter=';')
         for row in reader:
-            display_message(row)
             if row['first_name'] == surname.get() and row['password'] == password.get():
                 application()
                 return
