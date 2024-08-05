@@ -7,6 +7,7 @@ from CTkMenuBar import *
 # Theme of Application
 ctk.set_appearance_mode("white")
 ctk.set_default_color_theme("dark-blue")
+ctk.deactivate_automatic_dpi_awareness()
 
 
 runpath = os.getcwd()
