@@ -5,8 +5,8 @@ import os
 from CTkMenuBar import *
 
 # Theme of Application
-ctk.set_appearance_mode("dark")
-ctk.set_default_color_theme("blue")
+ctk.set_appearance_mode("white")
+ctk.set_default_color_theme("dark-blue")
 
 
 runpath = os.getcwd()
@@ -23,10 +23,10 @@ def login_screen():
     title = ctk.CTkLabel(app, text="Login", font=('Bold Calibri', 25))
     title.place(relx=0.40625, rely=0.1)
     
-    surname = ctk.CTkEntry(app, placeholder_text="Surname")
-    surname.place(relx=0.1, rely=0.3, relwidth=0.8)
+    surname = ctk.CTkEntry(app, placeholder_text="Surname", corner_radius=14)
+    surname.place(relx=0.1, rely=0.3, relwidth=0.8,)
     
-    password = ctk.CTkEntry(app, placeholder_text="Password")
+    password = ctk.CTkEntry(app, placeholder_text="Password", corner_radius=14)
     password.configure(show="*")
     password.place(relx=0.1, rely=0.5, relwidth=0.8)
     
@@ -72,8 +72,7 @@ def application():
     menu.add_cascade("Settings")
     menu.add_cascade("About")
     
-     
- 
+    
 # Start the login screen; everything else is initialized from there on 
 login_screen() 
 app.mainloop() 
