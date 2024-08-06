@@ -61,10 +61,14 @@ def display_message(message):
  
 def application(): 
     for widget in app.winfo_children(): 
-        widget.destroy() 
+        widget.destroy()
+        
+    appwidth = 1024
+    appheight = 768
+    startup = True
      
     app.title("pt1 - Lightweight Notes") 
-    app.geometry('1024x768') 
+    app.geometry(f'{appwidth}x{appheight}') 
     app.resizable(True, True)
     
     menu = CTkMenuBar(master=app)
@@ -72,6 +76,22 @@ def application():
     menu.add_cascade("Edit")
     menu.add_cascade("Settings")
     menu.add_cascade("About")
+    
+    if startup:
+        
+        seg_backgr = ctk.CTkFrame(
+            app,
+            fg_color="#36454F"
+        )
+        seg_backgr.pack(pady=10, padx=10, fill="both", expand=True)
+        
+        seg_open = ctk.CTkFrame(
+            seg_backgr,
+            fg_color="#FFFFFF",
+            width=300,
+            height=256
+        )
+        seg_open.place(relx=0.1, rely=0.1)
     
     
 # Start the login screen; everything else is initialized from there on 
