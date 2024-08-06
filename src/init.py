@@ -12,6 +12,7 @@ ctk.deactivate_automatic_dpi_awareness()
 
 runpath = os.getcwd()
 csv_file_path = f'{runpath}/src/login.csv'
+font_path = f'{runpath}/src/fonts/quicksand-light.ttf'
 
 app = ctk.CTk()
 
@@ -63,8 +64,8 @@ def application():
     for widget in app.winfo_children(): 
         widget.destroy()
         
-    appwidth = 1024
-    appheight = 768
+    appwidth = 800
+    appheight = 600
     startup = True
      
     app.title("pt1 - Lightweight Notes") 
@@ -78,22 +79,47 @@ def application():
     menu.add_cascade("About")
     
     if startup:
-        
+    
         seg_backgr = ctk.CTkFrame(
-            app,
+             app,
             fg_color="#36454F"
         )
         seg_backgr.pack(pady=10, padx=10, fill="both", expand=True)
-        
-        seg_open = ctk.CTkFrame(
-            seg_backgr,
+    
+        welcome = ctk.CTkLabel(app, text="Welcome to pt1 - Lightweight Notes", font=(f"{font_path}", 50))
+        welcome.pack(pady=(10, 20))  
+    
+        container = ctk.CTkFrame(seg_backgr, fg_color="#36454F")
+        container.pack(fill="both", expand=True, padx=10, pady=10)
+
+        container.grid_rowconfigure(0, weight=1)
+        container.grid_columnconfigure([0, 1, 2], weight=1)
+
+        seg_create = ctk.CTkFrame(
+            container,
             fg_color="#FFFFFF",
-            width=300,
+            width=250,
             height=256
         )
-        seg_open.place(relx=0.1, rely=0.1)
+        seg_create.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
     
-    
+        seg_open = ctk.CTkFrame(
+            container,
+            fg_color="#FFFFFF",
+            width=250,
+            height=256
+        )
+        seg_open.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
+        
+        seg_settings = ctk.CTkFrame(
+            container,
+            fg_color="#FFFFFF",
+            width=250,
+            height=256
+        )
+        seg_settings.grid(row=0, column=2, padx=10, pady=10, sticky="nsew")
+        
+
 # Start the login screen; everything else is initialized from there on 
 login_screen() 
 app.mainloop() 
