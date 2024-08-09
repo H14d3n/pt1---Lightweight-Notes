@@ -12,7 +12,7 @@ ctk.deactivate_automatic_dpi_awareness()
 
 runpath = os.getcwd()
 csv_file_path = f'{runpath}/src/login.csv'
-font_path = f'{runpath}/src/fonts/quicksand-light.ttf'
+font_path = f'{runpath}/src/fonts/Quicksand-Light.ttf'
 
 app = ctk.CTk()
 
@@ -119,7 +119,7 @@ def application():
         )
         seg_settings.grid(row=0, column=2, padx=10, pady=10, sticky="nsew")
         
-
+        
 # Start the login screen; everything else is initialized from there on 
 login_screen() 
-app.mainloop() 
+app.mainloop()
