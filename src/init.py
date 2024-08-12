@@ -110,15 +110,15 @@ def application():
             width=250,
             height=256
         )
-        seg_open.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
-        
-        seg_settings = ctk.CTkFrame(
-            container,
-            fg_color="#FFFFFF",
-            width=250,
-            height=256
-        )
-        seg_settings.grid(row=0, column=2, padx=10, pady=10, sticky="nsew")
+        seg_open.grid(row=0, column=1, padx=10, pady=10, sticky="nsew") 
+         
+        seg_settings = ctk.CTkFrame( 
+            container, 
+            fg_color="#FFFFFF", 
+            width=250, 
+            height=256 
+        ) 
+        seg_settings.grid(row=0, column=2, padx=10, pady=10, sticky="nsew") 
         
         
 # Start the login screen; everything else is initialized from there on 
