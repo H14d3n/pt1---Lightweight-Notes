@@ -67,6 +67,7 @@ def application():
     appwidth = 800
     appheight = 600
     startup = True
+    app.minsize(width=850, height=510)
      
     app.title("pt1 - Lightweight Notes") 
     app.geometry(f'{appwidth}x{appheight}') 
