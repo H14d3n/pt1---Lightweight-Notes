@@ -74,10 +74,19 @@ def application():
     app.resizable(True, True)
     
     menu = CTkMenuBar(master=app)
-    menu.add_cascade("Menu")
-    menu.add_cascade("Edit")
-    menu.add_cascade("Settings")
-    menu.add_cascade("About")
+    opt_file = menu.add_cascade("File")
+    opt_edit = menu.add_cascade("Edit")
+    opt_settings = menu.add_cascade("Settings")
+    opt_about = menu.add_cascade("About")
+    
+    dropdown1 = CustomDropdownMenu(widget=opt_file)
+    dropdown1.add_option(option="Neu", command=lambda: print("Created"))
+    dropdown1.add_option(option="Open", command=lambda: print("Opened"))
+    dropdown1.add_option(option="Save", command=lambda: print("Saved"))
+    dropdown1.add_option(option="Save as", command=lambda: print("Saved as"))
+    dropdown1.add_option(option="Rename", command=lambda: print("Renamed"))
+    dropdown1.add_option(option="Exit", command=lambda: print("Exited"))
+
     
     if startup:
     
