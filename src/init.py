@@ -83,10 +83,27 @@ def application():
     dropdown1.add_option(option="Neu", command=lambda: print("Created"))
     dropdown1.add_option(option="Open", command=lambda: print("Opened"))
     dropdown1.add_option(option="Save", command=lambda: print("Saved"))
+    
+    dropdown1.add_separator()
+    
+    sub_menu1 = dropdown1.add_submenu("Export As")
+    sub_menu1.add_option(option=".PDF")
+    sub_menu1.add_option(option=".docx")
+    
     dropdown1.add_option(option="Save as", command=lambda: print("Saved as"))
     dropdown1.add_option(option="Rename", command=lambda: print("Renamed"))
     dropdown1.add_option(option="Exit", command=lambda: print("Exited"))
-
+    
+    dropdown2 = CustomDropdownMenu(widget=opt_edit)
+    dropdown2.add_option(option="Cut (CTRL + X)")
+    dropdown2.add_option(option="Copy (CTRL + C)")
+    dropdown2.add_option(option="Paste (CTRL + V)")
+    
+    dropdown3 = CustomDropdownMenu(widget=opt_settings)
+    dropdown3.add_option(option="Settings")
+    
+    dropdown4 = CustomDropdownMenu(widget=opt_about)
+    dropdown4.add_option(option="About pt1 - Lightweight Notes")
     
     if startup:
     
