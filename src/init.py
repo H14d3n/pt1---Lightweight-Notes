@@ -58,11 +58,13 @@ def check_credentials(csv_file_path, surname, password):
 def display_message(message): 
     message_label = ctk.CTkLabel(app, text=message, font=('Bold Calibri', 12), text_color="red") 
     message_label.place(relx=0.1, rely=0.8, relwidth=0.8) 
-     
- 
-def application(): 
+
+def exit_sidewindow():
     for widget in app.winfo_children(): 
-        widget.destroy()
+        widget.destroy()    
+     
+def application(): 
+    exit_sidewindow()
         
     appwidth = 800
     appheight = 600
@@ -92,7 +94,7 @@ def application():
     
     dropdown1.add_option(option="Save as", command=lambda: print("Saved as"))
     dropdown1.add_option(option="Rename", command=lambda: print("Renamed"))
-    dropdown1.add_option(option="Exit", command=lambda: print("Exited"))
+    dropdown1.add_option(option="Exit", command=lambda:app.destroy())
     
     dropdown2 = CustomDropdownMenu(widget=opt_edit)
     dropdown2.add_option(option="Cut (CTRL + X)")
