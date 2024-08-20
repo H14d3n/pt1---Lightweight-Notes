@@ -45,7 +45,7 @@ def login(surname, password, csv_file_path):
     else:
         display_message("Please enter both surname and password.")  
         
-        
+
 def check_credentials(csv_file_path, surname, password):
     with open(csv_file_path, mode='r', newline='') as file:
         reader = csv.DictReader(file, delimiter=';')
@@ -149,8 +149,8 @@ def application():
         ) 
         seg_settings.grid(row=0, column=2, padx=10, pady=10, sticky="nsew") 
 
-        img_create = ctk.CTkImage(light_image=Image.open('img/PlusBlack.png'), 
-                                  dark_image=Image.open('img/PlusWhite.png'),
+        img_create = ctk.CTkImage(light_image=Image.open(f'{runpath}.\img\PlusBlack.png'), 
+                                  dark_image=Image.open(f'{runpath}\img\PlusWhite.png'),
                                   size=(64,64) # Width x Height
         ) 
         
