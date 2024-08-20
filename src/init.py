@@ -45,7 +45,7 @@ def login(surname, password, csv_file_path):
     else:
         display_message("Please enter both surname and password.")  
         
-                
+        
 def check_credentials(csv_file_path, surname, password):
     with open(csv_file_path, mode='r', newline='') as file:
         reader = csv.DictReader(file, delimiter=';')
@@ -151,7 +151,15 @@ def application():
 
         img_create = ctk.CTkImage(light_image=Image.open('img/PlusBlack.png'), 
                                   dark_image=Image.open('img/PlusWhite.png'),
-                                  size=(64,64)) # Width x Height
+                                  size=(64,64) # Width x Height
+        ) 
+        
+        label_create = ctk.CTkLabel(
+            seg_create,
+            image=img_create,
+            text=""
+        )
+        label_create.pack(pady=20)
 
 # Start the login screen; everything else is initialized from there on 
 login_screen() 
