@@ -3,6 +3,7 @@ import customtkinter as ctk
 import csv
 import os
 from CTkMenuBar import *
+from PIL import Image
 
 # Theme of Application
 ctk.set_appearance_mode("white")
@@ -147,8 +148,11 @@ def application():
             height=256 
         ) 
         seg_settings.grid(row=0, column=2, padx=10, pady=10, sticky="nsew") 
-        
-        
+
+        img_create = ctk.CTkImage(light_image=Image.open('img/PlusBlack.png'), 
+                                  dark_image=Image.open('img/PlusWhite.png'),
+                                  size=(64,64)) # Width x Height
+
 # Start the login screen; everything else is initialized from there on 
 login_screen() 
 app.mainloop()
