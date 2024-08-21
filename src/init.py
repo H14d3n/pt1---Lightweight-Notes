@@ -125,34 +125,37 @@ def application():
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure([0, 1, 2], weight=1)
 
+        width_Frame = 250
+        height_Frame = 256
+
         seg_create = ctk.CTkFrame(
             container,
             fg_color="#FFFFFF",
-            width=250,
-            height=256
+            width=width_Frame,
+            height=height_Frame
         )
         seg_create.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
     
         seg_open = ctk.CTkFrame(
             container,
             fg_color="#FFFFFF",
-            width=250,
-            height=256
+            width=width_Frame,
+            height=height_Frame
         )
         seg_open.grid(row=0, column=1, padx=10, pady=10, sticky="nsew") 
          
         seg_settings = ctk.CTkFrame( 
             container, 
             fg_color="#FFFFFF", 
-            width=250, 
-            height=256 
+            width=width_Frame, 
+            height=height_Frame 
         ) 
         seg_settings.grid(row=0, column=2, padx=10, pady=10, sticky="nsew") 
 
-        img_create = ctk.CTkImage(light_image=Image.open(f'{runpath}.\img\PlusBlack.png'), 
-                                  dark_image=Image.open(f'{runpath}\img\PlusWhite.png'),
-                                  size=(64,64) # Width x Height
-        ) 
+        img_create = ctk.CTkImage(light_image=Image.open(rf'{runpath}\src\img\PlusBlack.png'), 
+                                  dark_image=Image.open(rf'{runpath}\src\img\PlusWhite.png'),
+                                  size=(width_Frame, height_Frame) # Width x Height
+        )
         
         label_create = ctk.CTkLabel(
             seg_create,
