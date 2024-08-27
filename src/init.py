@@ -166,6 +166,7 @@ def application(save_uid):
         label_create.pack(pady=20)
 
         button_create = ctk.CTkButton(seg_create, text="Create", command=lambda: create_document(save_uid))
+        button_create.place(relx=0.25, rely=0.7, relwidth=0.5, relheight=0.2)
 
 def create_document(save_uid):
     print(save_uid)        
