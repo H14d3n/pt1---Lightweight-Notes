@@ -49,9 +49,10 @@ def login(surname, password, csv_file_path):
 def check_credentials(csv_file_path, surname, password):
     with open(csv_file_path, mode='r', newline='') as file:
         reader = csv.DictReader(file, delimiter=';')
-        for row in reader:
+        for row in reader: 
             if row['first_name'] == surname.get() and row['password'] == password.get():
-                application()
+                save_uid = row['uid']
+                application(save_uid)
                 return
         display_message("Invalid credentials.")  
          
@@ -64,7 +65,7 @@ def exit_sidewindow():
     for widget in app.winfo_children(): 
         widget.destroy()    
      
-def application(): 
+def application(save_uid): 
     exit_sidewindow()
         
     appwidth = 800
@@ -163,6 +164,11 @@ def application():
             text=""
         )
         label_create.pack(pady=20)
+
+        button_create = ctk.CTkButton(seg_create, text="Create", command=lambda: create_document(save_uid))
+
+def create_document(save_uid):
+    print(save_uid)        
 
 # Start the login screen; everything else is initialized from there on 
 login_screen() 
