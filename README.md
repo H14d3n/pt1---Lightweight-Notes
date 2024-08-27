@@ -13,7 +13,7 @@
    ```bash
    sudo apt install python3
    python3 pip install customtkinter
-   python3 pip install t kinter
+   python3 pip install tkinter
    python3 pip install CTkMenuBar
    python3 pip install PIL
    
