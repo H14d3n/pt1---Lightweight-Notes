@@ -186,6 +186,11 @@ def settings():
         settings_window.geometry("400x200")
         settings_window.resizable(False, False)
 
+        settings_scrollframe = ctk.CTkScrollableFrame(settings_window, width=400, height=200)
+
+        settings_label1 = ctk.CTkLabel(settings_scrollframe, text="test")
+        settings_label1.place(relx=0.5, rely=0.5)
+
 # Start the login screen; everything else is initialized from there on 
 login_screen() 
 app.mainloop()
