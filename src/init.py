@@ -104,7 +104,7 @@ def application(save_uid):
     dropdown2.add_option(option="Paste (CTRL + V)")
     
     dropdown3 = CustomDropdownMenu(widget=opt_settings)
-    dropdown3.add_option(option="Settings")
+    dropdown3.add_option(option="Settings", command=lambda: settings())
     
     dropdown4 = CustomDropdownMenu(widget=opt_about)
     dropdown4.add_option(option="About pt1 - Lightweight Notes")
@@ -171,7 +171,7 @@ def application(save_uid):
         button_open = ctk.CTkButton(seg_open, text="Open", command=lambda: open_document(save_uid))
         button_open.place(relx=0.25, rely=0.7, relwidth=0.5, relheight=0.2)
 
-        button_settings = ctk.CTkButton(seg_settings, text="Settings", command=lambda: open_settings())
+        button_settings = ctk.CTkButton(seg_settings, text="Settings", command=lambda: settings())
         button_settings.place(relx=0.25, rely=0.7, relwidth=0.5, relheight=0.2)
 
 def create_document(save_uid):
@@ -180,8 +180,11 @@ def create_document(save_uid):
 def open_document(save_uid):
     print(save_uid)     
 
-def open_settings():
-    settings()        
+def settings():
+        settings_window = ctk.CTkToplevel(app)
+        settings_window.title("pt1 Lightweight Notes - Settings")
+        settings_window.geometry("400x200")
+        settings_window.resizable(False, False)
 
 # Start the login screen; everything else is initialized from there on 
 login_screen() 
