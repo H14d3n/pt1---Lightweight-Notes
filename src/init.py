@@ -168,8 +168,20 @@ def application(save_uid):
         button_create = ctk.CTkButton(seg_create, text="Create", command=lambda: create_document(save_uid))
         button_create.place(relx=0.25, rely=0.7, relwidth=0.5, relheight=0.2)
 
+        button_open = ctk.CTkButton(seg_open, text="Open", command=lambda: open_document(save_uid))
+        button_open.place(relx=0.25, rely=0.7, relwidth=0.5, relheight=0.2)
+
+        button_settings = ctk.CTkButton(seg_settings, text="Settings", command=lambda: open_settings())
+        button_settings.place(relx=0.25, rely=0.7, relwidth=0.5, relheight=0.2)
+
 def create_document(save_uid):
-    print(save_uid)        
+    print(save_uid)   
+
+def open_document(save_uid):
+    print(save_uid)     
+
+def open_settings():
+    settings()        
 
 # Start the login screen; everything else is initialized from there on 
 login_screen() 
