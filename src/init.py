@@ -4,6 +4,7 @@ import csv
 import os
 from CTkMenuBar import *
 from PIL import Image
+from tkinter import filedialog, Text
 
 # Theme of Application
 ctk.set_appearance_mode("white")
@@ -52,7 +53,7 @@ def check_credentials(csv_file_path, surname, password):
         for row in reader: 
             if row['first_name'] == surname.get() and row['password'] == password.get():
                 save_uid = row['uid']
-                application(save_uid)
+                init_application(save_uid)
                 return
         display_message("Invalid credentials.")  
          
@@ -61,12 +62,12 @@ def display_message(message):
     message_label = ctk.CTkLabel(app, text=message, font=('Bold Calibri', 12), text_color="red") 
     message_label.place(relx=0.1, rely=0.8, relwidth=0.8) 
 
-def exit_sidewindow():
+def exit_widget():
     for widget in app.winfo_children(): 
         widget.destroy()    
      
-def application(save_uid): 
-    exit_sidewindow()
+def init_application(save_uid): 
+    exit_widget()
         
     appwidth = 800
     appheight = 600
@@ -85,7 +86,7 @@ def application(save_uid):
     
     dropdown1 = CustomDropdownMenu(widget=opt_file)
     dropdown1.add_option(option="Neu", command=lambda: print("Created"))
-    dropdown1.add_option(option="Open", command=lambda: print("Opened"))
+    dropdown1.add_option(option="Open", command=lambda: open_document(save_uid))
     dropdown1.add_option(option="Save", command=lambda: print("Saved"))
     
     dropdown1.add_separator()
@@ -175,20 +176,26 @@ def application(save_uid):
         button_settings.place(relx=0.25, rely=0.7, relwidth=0.5, relheight=0.2)
 
 def create_document(save_uid):
-    print(save_uid)   
+    exit_widget()  
 
 def open_document(save_uid):
-    print(save_uid)     
+    file_path = filedialog.askopenfilename(
+        title="Open Document",
+        filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")]
+    )
+    
+    if file_path:
+        with open(file_path, 'r') as file:
+            file_content = file.read()
 
 def settings():
         settings_window = ctk.CTkToplevel(app)
         settings_window.title("pt1 Lightweight Notes - Settings")
         settings_window.geometry("400x200")
         settings_window.resizable(False, False)
+        settings_window.after(100, settings_window.lift)
 
-        settings_scrollframe = ctk.CTkScrollableFrame(settings_window, width=400, height=200)
-
-        settings_label1 = ctk.CTkLabel(settings_scrollframe, text="test")
+        settings_label1 = ctk.CTkLabel(settings_window, text="test")
         settings_label1.place(relx=0.5, rely=0.5)
 
 # Start the login screen; everything else is initialized from there on 
