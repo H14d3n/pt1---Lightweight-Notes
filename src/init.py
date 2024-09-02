@@ -176,7 +176,7 @@ def init_application(save_uid):
         button_settings.place(relx=0.25, rely=0.7, relwidth=0.5, relheight=0.2)
 
 def create_document(save_uid):
-    exit_widget()  
+    print(save_uid)  
 
 def open_document(save_uid):
     file_path = filedialog.askopenfilename(
@@ -187,6 +187,12 @@ def open_document(save_uid):
     if file_path:
         with open(file_path, 'r') as file:
             file_content = file.read()
+       
+    if file_content:
+        # At first check what save_uid is assigned, then init GUI for Editing
+        print("")   
+    else:
+        print("No File was found")
 
 def settings():
         settings_window = ctk.CTkToplevel(app)
@@ -195,8 +201,8 @@ def settings():
         settings_window.resizable(False, False)
         settings_window.after(100, settings_window.lift)
 
-        settings_label1 = ctk.CTkLabel(settings_window, text="test")
-        settings_label1.place(relx=0.5, rely=0.5)
+        settings_label1 = ctk.CTkLabel(settings_window, text="Change Theme")
+        settings_label1.place(relx=0.03, rely=0.05)
 
 # Start the login screen; everything else is initialized from there on 
 login_screen() 
