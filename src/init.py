@@ -176,23 +176,26 @@ def init_application(save_uid):
         button_settings.place(relx=0.25, rely=0.7, relwidth=0.5, relheight=0.2)
 
 def create_document(save_uid):
-    print(save_uid)  
+    file_path = filedialog.asksaveasfilename(defaultextension=".pt1",
+                                             filetypes=[("pt1 Files", "*.pt1"),
+                                                        ("All Files", "*.*")])
+    
+    if file_path:
+        edit(file_path)
 
 def open_document(save_uid):
     file_path = filedialog.askopenfilename(
         title="Open Document",
-        filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")]
+        filetypes=[("pt1 Files", "*.pt1"), ("All Files", "*.*")]
     )
     
     if file_path:
-        with open(file_path, 'r') as file:
-            file_content = file.read()
-       
-    if file_content:
-        # At first check what save_uid is assigned, then init GUI for Editing
-        print("")   
-    else:
-        print("No File was found")
+        print("Test")
+
+
+def edit(file_path):
+    with open(file_path, 'w') as file:
+        file.readlines/()     
 
 def settings():
         settings_window = ctk.CTkToplevel(app)
