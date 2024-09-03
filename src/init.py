@@ -5,6 +5,7 @@ import os
 from CTkMenuBar import *
 from PIL import Image
 from tkinter import filedialog, Text
+import datetime
 
 # Theme of Application
 ctk.set_appearance_mode("white")
@@ -158,13 +159,6 @@ def init_application(save_uid):
                                   dark_image=Image.open(rf'{runpath}\src\img\PlusWhite.png'),
                                   size=(width_Frame, height_Frame) # Width x Height
         )
-        
-        label_create = ctk.CTkLabel(
-            seg_create,
-            image=img_create,
-            text=""
-        )
-        label_create.pack(pady=20)
 
         button_create = ctk.CTkButton(seg_create, text="Create", command=lambda: create_document(save_uid))
         button_create.place(relx=0.25, rely=0.7, relwidth=0.5, relheight=0.2)
@@ -179,8 +173,13 @@ def create_document(save_uid):
     file_path = filedialog.asksaveasfilename(defaultextension=".pt1",
                                              filetypes=[("pt1 Files", "*.pt1"),
                                                         ("All Files", "*.*")])
-    
     if file_path:
+        with open(file_path, 'w') as file:
+            date = datetime.datetime.now()
+            file.write(f"uid:{save_uid}\n")
+            file.write(f"title:test\n")
+            file.write(f"date:{date}\n")
+            file.write("\n") 
         edit(file_path)
 
 def open_document(save_uid):
@@ -190,12 +189,11 @@ def open_document(save_uid):
     )
     
     if file_path:
-        print("Test")
-
-
+            edit(file_path)
+        
 def edit(file_path):
     with open(file_path, 'w') as file:
-        file.readlines/()     
+        print(file_path)
 
 def settings():
         settings_window = ctk.CTkToplevel(app)
