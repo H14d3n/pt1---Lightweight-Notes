@@ -157,7 +157,7 @@ def init_application(save_uid):
 
         img_create = ctk.CTkImage(light_image=Image.open(rf'{runpath}\src\img\PlusBlack.png'), 
                                   dark_image=Image.open(rf'{runpath}\src\img\PlusWhite.png'),
-                                  size=(width_Frame, height_Frame) # Width x Height
+                                  size=() # Width x Height
         )
 
         button_create = ctk.CTkButton(seg_create, text="Create", command=lambda: create_document(save_uid))
@@ -178,7 +178,7 @@ def create_document(save_uid):
             date = datetime.datetime.now()
             file.write(f"uid:{save_uid}\n")
             file.write(f"title:test\n")
-            file.write(f"date:{date}\n")
+            file.write(rf"date:{date}\n")
             file.write("\n") 
         edit(file_path)
 
