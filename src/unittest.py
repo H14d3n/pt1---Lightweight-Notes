@@ -14,22 +14,22 @@ class TestLightweightNotesApp(unittest.TestCase):
         # Tear down the tkinter instance
         self.root.destroy()
 
-    @patch('builtins.open', new_callable=unittest.mock.mock_open, read_data='uid:1;first_name:Test;password:1234')
+    @patch('builtins.open', new_callable=unittest.mock.mock_open, read_data='uid:3;first_name:tst;password:tst')
     @patch('csv.DictReader')
     def test_check_credentials_valid(self, mock_csv_reader, mock_open):
         # Mock CSV reader with correct login credentials
-        mock_csv_reader.return_value = [{'uid': '1', 'first_name': 'Test', 'password': '1234'}]
+        mock_csv_reader.return_value = [{'uid': '3', 'first_name': 'tst', 'password': 'tst'}]
         
         self.app.surname_entry = MagicMock()
-        self.app.surname_entry.get.return_value = 'Test'
+        self.app.surname_entry.get.return_value = 'tst'
         self.app.password_entry = MagicMock()
-        self.app.password_entry.get.return_value = '1234'
+        self.app.password_entry.get.return_value = 'tst'
 
         with patch.object(self.app, 'init_application') as mock_init_application:
             self.app.handle_login()
             mock_init_application.assert_called_once()
 
-    @patch('builtins.open', new_callable=unittest.mock.mock_open, read_data='uid:1;first_name:Test;password:1234')
+    @patch('builtins.open', new_callable=unittest.mock.mock_open, read_data='uid:3;first_name:tst;password:tst')
     @patch('csv.DictReader')
     def test_check_credentials_invalid(self, mock_csv_reader, mock_open):
         # Mock CSV reader with incorrect login credentials
