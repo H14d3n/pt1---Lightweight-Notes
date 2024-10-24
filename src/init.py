@@ -19,17 +19,30 @@ font_path = f'{runpath}/src/fonts/Quicksand-Light.ttf'
 
 
 class LightweightNotesApp:
+    """
+    Main Application Window for pt1 - Lightweight Notes.
+    <p>
+    This class manages the overall structure and flow of the application, 
+    including user login, document creation, and settings management.
+    """
     def __init__(self, master):
+        """
+        Initializes the main application window and sets up the login screen
+        """
         self.master = master
         self.master.title("pt1 - Lightweight Notes")
         self.master.geometry('350x350')
         self.master.resizable(False, False)
         self.uid = None
-        
+
+        self.settings_window = None        
         self.init_login_screen()
 
     def init_login_screen(self):
-        """Initialize login screen components."""
+        """
+        Initializes and displays the login screen, allowing users to input 
+        their surname and password.
+        """
         self.clear_window()
 
         title = ctk.CTkLabel(self.master, text="Login", font=('Bold Calibri', 25))
@@ -48,7 +61,10 @@ class LightweightNotesApp:
         self.message_label = None
 
     def handle_login(self):
-        """Handle login logic and authentication."""
+        """
+        Handles the login process, validating the user's input and authenticating 
+        against stored credentials in the CSV file.
+        """
         self.display_message("")
         surname = self.surname_entry.get()
         password = self.password_entry.get()
@@ -59,7 +75,10 @@ class LightweightNotesApp:
             self.display_message("Please enter both surname and password.")
 
     def check_credentials(self, surname, password):
-        """Check user credentials against CSV file."""
+        """
+        Checks the entered credentials (surname and password) against the stored 
+        CSV data. If valid, proceeds to initialize the main application interface.
+        """
         with open(csv_file_path, mode='r', newline='') as file:
             reader = csv.DictReader(file, delimiter=';')
             for row in reader:
@@ -70,7 +89,10 @@ class LightweightNotesApp:
         self.display_message("Invalid credentials.")
 
     def display_message(self, message):
-        """Display a message in the login screen."""
+        """
+        Displays a message on the login screen, typically used for errors or 
+        instructions.
+        """
         if self.message_label:
             self.message_label.destroy()
         
@@ -78,12 +100,18 @@ class LightweightNotesApp:
         self.message_label.place(relx=0.1, rely=0.8, relwidth=0.8)
 
     def clear_window(self):
-        """Clear all widgets from the window."""
+        """
+        Clears all widgets from the current window to prepare for a new screen 
+        or interface.
+        """
         for widget in self.master.winfo_children():
             widget.destroy()
 
     def init_application(self):
-        """Initialize main application window after successful login."""
+        """
+        Initializes the main application interface after a successful login. 
+        This includes setting up the dashboard and menu bar.
+        """
         self.clear_window()
 
         self.master.geometry('800x600')
@@ -94,7 +122,10 @@ class LightweightNotesApp:
         self.init_dashboard()
 
     def init_menu_bar(self):
-        """Initialize the menu bar for the application."""
+        """
+        Initializes the menu bar with options such as File, Edit, Settings, and About, 
+        including actions like creating, opening, saving, and exporting documents.
+        """
         menu = CTkMenuBar(master=self.master)
         opt_file = menu.add_cascade("File")
         opt_edit = menu.add_cascade("Edit")
@@ -128,7 +159,10 @@ class LightweightNotesApp:
         about_menu.add_option(option="About pt1 - Lightweight Notes")
 
     def init_dashboard(self):
-        """Initialize the dashboard with available actions."""
+        """
+        Sets up the main dashboard where users can access actions like creating 
+        new documents, opening existing ones, or adjusting settings.
+        """
         seg_backgr = ctk.CTkFrame(self.master, fg_color="#36454F")
         seg_backgr.pack(pady=10, padx=10, fill="both", expand=True)
 
@@ -146,7 +180,10 @@ class LightweightNotesApp:
         self.create_action_frame(container, "Settings", self.open_settings, 2)
 
     def create_action_frame(self, container, label_text, command, column_index):
-        """Helper function to create action frames for dashboard."""
+        """
+        Helper method to create a frame with a button on the dashboard for different 
+        actions (e.g., Create, Open, Settings).
+        """
         action_frame = ctk.CTkFrame(container, fg_color="#FFFFFF", width=250, height=256)
         action_frame.grid(row=0, column=column_index, padx=10, pady=10, sticky="nsew")
 
@@ -154,7 +191,10 @@ class LightweightNotesApp:
         button.place(relx=0.25, rely=0.7, relwidth=0.5, relheight=0.2)
 
     def create_document(self):
-        """Handle creating a new document."""
+        """
+        Handles the creation of a new document, including opening a file dialog 
+        and saving the document's metadata.
+        """
         file_path = filedialog.asksaveasfilename(defaultextension=".pt1", 
                                                  filetypes=[("pt1 Files", "*.pt1"), ("All Files", "*.*")])
         if file_path:
@@ -167,32 +207,52 @@ class LightweightNotesApp:
             self.edit_document(file_path)
 
     def open_document(self):
-        """Handle opening an existing document."""
+        """
+        Opens an existing document by allowing the user to select a file from a file dialog.
+        """
         file_path = filedialog.askopenfilename(title="Open Document", 
                                                filetypes=[("pt1 Files", "*.pt1"), ("All Files", "*.*")])
         if file_path:
             self.edit_document(file_path)
 
     def edit_document(self, file_path):
-        """Handle editing a document."""
+        """
+        Manages the editing process of an opened document by providing the functionality 
+        to write to the file.
+        """
         with open(file_path, 'w') as file:
             print(f"Editing file: {file_path}")
 
     def open_settings(self):
-        """Open settings window."""
-        settings_window = ctk.CTkToplevel(self.master)
-        settings_window.title("pt1 Lightweight Notes - Settings")
-        settings_window.geometry("400x200")
-        settings_window.resizable(False, False)
+        """
+        Opens the settings window where users can adjust application settings, 
+        such as changing themes. Prevents opening multiple instances of the settings window.
+        """
+        if self.settings_window is None or not self.settings_window.winfo_exists():
+            self.settings_window = ctk.CTkToplevel(self.master)
+            self.settings_window.title("pt1 Lightweight Notes - Settings")
+            self.settings_window.geometry("400x200")
+            self.settings_window.resizable(False, False)
 
-        settings_change_theme_label = ctk.CTkLabel(settings_window, text="Change Theme")
-        settings_change_theme_label.place(relx=0.03, rely=0.05)
+            # Add close callback to set reference to None when the window is closed
+            self.settings_window.protocol("WM_DELETE_WINDOW", self.on_settings_close)
 
-        light_theme_button = ctk.CTkButton(settings_window, text="Light", command=lambda: print("Light Mode"))
-        light_theme_button.place(relx=0.03, rely=0.2, relwidth=0.2, relheight=0.1)
+            settings_change_theme_label = ctk.CTkLabel(self.settings_window, text="Change Theme")
+            settings_change_theme_label.place(relx=0.03, rely=0.05)
 
-        dark_theme_button = ctk.CTkButton(settings_window, text="Dark", command=lambda: print("Dark Mode"))
-        dark_theme_button.place(relx=0.03, rely=0.325, relwidth=0.2, relheight=0.1)
+            light_theme_button = ctk.CTkButton(self.settings_window, text="Light", command=lambda: print("Light Mode"))
+            light_theme_button.place(relx=0.03, rely=0.2, relwidth=0.2, relheight=0.1)
+
+            dark_theme_button = ctk.CTkButton(self.settings_window, text="Dark", command=lambda: print("Dark Mode"))
+            dark_theme_button.place(relx=0.03, rely=0.325, relwidth=0.2, relheight=0.1)
+    
+    def on_settings_close(self):
+        """
+        Handles the event when the settings window is closed, ensuring the application 
+        knows the window is no longer open.
+        """
+        self.settings_window.destroy()
+        self.settings_window = None
 
 
 # Initialize the application
