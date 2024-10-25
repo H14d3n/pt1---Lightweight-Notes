@@ -140,9 +140,9 @@ class LightweightNotesApp:
 
         file_menu.add_separator()
 
-        export_sub_menu = file_menu.add_submenu("Export As")
-        export_sub_menu.add_option(option=".PDF")
-        export_sub_menu.add_option(option=".docx")
+        export_sub_menu = file_menu.add_submenu("Export As >>")
+        export_sub_menu.add_option(option=".PDF", command=lambda: print("Exported as PDF"))
+        export_sub_menu.add_option(option=".docx", command=lambda: print("Exported as docx"))
 
         file_menu.add_option(option="Save as", command=lambda: print("Saved as"))
         file_menu.add_option(option="Rename", command=lambda: print("Renamed"))
@@ -287,7 +287,7 @@ class LightweightNotesApp:
         """
         self.settings_window.destroy()
         self.settings_window = None
-
+    
 
 # Initialize the application
 if __name__ == "__main__":
