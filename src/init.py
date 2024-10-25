@@ -6,6 +6,7 @@ from CTkMenuBar import *
 from PIL import Image
 from tkinter import filedialog, Text
 import datetime
+from PIL import Image, ImageTk
 
 
 # Global configurations
@@ -186,6 +187,39 @@ class LightweightNotesApp:
         """
         action_frame = ctk.CTkFrame(container, fg_color="#FFFFFF", width=250, height=256)
         action_frame.grid(row=0, column=column_index, padx=10, pady=10, sticky="nsew")
+
+        # Create Icon
+        white_plus_path = f"{runpath}/src/img/PlusWhite.png"
+        black_plus_path = f"{runpath}/src/img/PlusBlack.png"
+
+        create_image = ctk.CTkImage(light_image=Image.open(white_plus_path),
+                                           dark_image=Image.open(black_plus_path),
+                                           size=(100,100))
+
+        create_image_label = ctk.CTkLabel(container, text="", image=create_image)
+        create_image_label.place(relx=0.1625, rely=0.3, anchor="center")
+
+        # Open Icon
+        white_open_path = f"{runpath}/src/img/FolderWhite.png"
+        black_open_path = f"{runpath}/src/img/FolderBlack.png"
+
+        create_image = ctk.CTkImage(light_image=Image.open(white_open_path),
+                                           dark_image=Image.open(black_open_path),
+                                           size=(100,100))
+
+        open_image_label = ctk.CTkLabel(container, text="", image=create_image)
+        open_image_label.place(relx=0.5, rely=0.3, anchor="center")
+
+        # Settings Icon
+        white_settings_path = f"{runpath}/src/img/SettingsWhite.png"
+        black_settings_path = f"{runpath}/src/img/SettingsBlack.png"
+
+        create_image = ctk.CTkImage(light_image=Image.open(white_settings_path),
+                                           dark_image=Image.open(black_settings_path),
+                                           size=(100,100))
+
+        settings_image_label = ctk.CTkLabel(container, text="", image=create_image)
+        settings_image_label.place(relx=0.83125, rely=0.3, anchor="center")
 
         button = ctk.CTkButton(action_frame, text=label_text, command=command)
         button.place(relx=0.25, rely=0.7, relwidth=0.5, relheight=0.2)
