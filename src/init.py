@@ -232,12 +232,13 @@ class LightweightNotesApp:
         file_path = filedialog.asksaveasfilename(defaultextension=".pt1", 
                                                  filetypes=[("pt1 Files", "*.pt1"), ("All Files", "*.*")])
         if file_path:
-            with open(file_path, 'w') as file:
+            with open(file_path, 'w+') as file:
                 date = datetime.datetime.now()
+                file.write("!!! Do not edit the following 2 Lines !!!\n")
                 file.write(f"uid:{self.uid}\n")
-                file.write(f"title:test\n")
                 file.write(f"date:{date}\n")
-                file.write("\n")
+                file.write("\n")  # Add an extra newline if desired for formatting
+
             self.edit_document(file_path)
 
     def open_document(self):
@@ -254,8 +255,18 @@ class LightweightNotesApp:
         Manages the editing process of an opened document by providing the functionality 
         to write to the file.
         """
-        with open(file_path, 'w') as file:
-            print(f"Editing file: {file_path}")
+        with open(file_path, 'w+') as file:
+            check_uid = file.readlines(1)
+
+            print(f"Testetsestets{check_uid}")
+
+            if any(self.uid in check_uid):
+                print(f"Editing file: {file_path}")
+
+                # Awaits further implementation here
+
+            else:
+                print("You don't have permission to edit this file.")    
 
     def open_settings(self):
         """
