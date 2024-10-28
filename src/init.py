@@ -239,7 +239,7 @@ class LightweightNotesApp:
                 file.write(f"date:{date}\n")
                 file.write("\n")  # Add an extra newline if desired for formatting
 
-            self.edit_document(file_path)
+            self.edit_document(file_path) 
 
     def open_document(self):
         """
@@ -256,17 +256,16 @@ class LightweightNotesApp:
         to write to the file.
         """
         with open(file_path, 'w+') as file:
-            check_uid = file.readlines(1)
+            check_uid = file.readline(1)
 
-            print(f"Testetsestets{check_uid}")
-
-            if any(self.uid in check_uid):
+            if (self.uid in check_uid):
                 print(f"Editing file: {file_path}")
 
                 # Awaits further implementation here
-
             else:
+                print(f"Check-UID: {check_uid}")
                 print("You don't have permission to edit this file.")    
+
 
     def open_settings(self):
         """
