@@ -233,11 +233,11 @@ class LightweightNotesApp:
                                                  filetypes=[("pt1 Files", "*.pt1"), ("All Files", "*.*")])
         if file_path:
             with open(file_path, 'w+') as file:
-                date = datetime.datetime.now()
-                file.write("!!! Do not edit the following 2 Lines !!!\n")
+                date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 file.write(f"uid:{self.uid}\n")
                 file.write(f"date:{date}\n")
                 file.write("\n")  # Add an extra newline if desired for formatting
+                file.flush()
 
             self.edit_document(file_path) 
 
@@ -255,16 +255,16 @@ class LightweightNotesApp:
         Manages the editing process of an opened document by providing the functionality 
         to write to the file.
         """
-        with open(file_path, 'w+') as file:
-            check_uid = file.readline(1)
+        with open(file_path, 'r') as file:
+            first_line = file.readline()
+            print(f"Checking UID in file: {first_line.strip()}")
 
-            if (self.uid in check_uid):
+
+            if self.uid in first_line:
                 print(f"Editing file: {file_path}")
-
                 # Awaits further implementation here
             else:
-                print(f"Check-UID: {check_uid}")
-                print("You don't have permission to edit this file.")    
+                print("You don't have permission to edit this file.")
 
 
     def open_settings(self):
