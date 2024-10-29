@@ -2,11 +2,23 @@ import tkinter as tk
 import customtkinter as ctk
 import csv
 import os
+import platform
 from CTkMenuBar import *
 from PIL import Image
 from tkinter import filedialog, Text
 import datetime
 from PIL import Image, ImageTk
+
+# Import the CSV management module
+from csv_manager import *
+
+
+"""
+ToDo:
+ * Main Editor
+ * Account creator
+ * (Optional) Add Editor functionalities.
+"""
 
 
 # Global configurations
@@ -15,7 +27,7 @@ ctk.set_default_color_theme("dark-blue")
 ctk.deactivate_automatic_dpi_awareness()
 
 runpath = os.getcwd()
-csv_file_path = f'{runpath}/src/login.csv'
+csv_file_path = get_csv_path() # Function is in csv_manager.py
 font_path = f'{runpath}/src/fonts/Quicksand-Light.ttf'
 
 
@@ -36,8 +48,9 @@ class LightweightNotesApp:
         self.master.resizable(False, False)
         self.uid = None
 
-        self.settings_window = None        
+        self.settings_window = None
         self.init_login_screen()
+
 
     def init_login_screen(self):
         """
@@ -297,10 +310,11 @@ class LightweightNotesApp:
         """
         self.settings_window.destroy()
         self.settings_window = None
-    
+
 
 # Initialize the application
 if __name__ == "__main__":
+    create_csv() # Function is in csv_manager.py
     app = ctk.CTk()
     LightweightNotesApp(app)
     app.mainloop()
