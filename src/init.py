@@ -9,9 +9,8 @@ from tkinter import filedialog, Text
 import datetime
 from PIL import Image, ImageTk
 
-# Import the CSV management module
+# Import the CSV-Management module
 from csv_manager import *
-
 
 """
 ToDo:
@@ -19,7 +18,6 @@ ToDo:
  * Account creator
  * (Optional) Add Editor functionalities.
 """
-
 
 # Global configurations
 ctk.set_appearance_mode("white")
@@ -270,8 +268,7 @@ class LightweightNotesApp:
         """
         with open(file_path, 'r') as file:
             first_line = file.readline()
-            print(f"Checking UID in file: {first_line.strip()}")
-
+            print(f"Checking UID in file: {first_line.strip()}") 
 
             if self.uid in first_line:
                 print(f"Editing file: {file_path}")
@@ -305,7 +302,7 @@ class LightweightNotesApp:
     
     def on_settings_close(self):
         """
-        Handles the event when the settings window is closed, ensuring the application 
+        Handles the event when the settings window is closed, ensuring the application
         knows the window is no longer open.
         """
         self.settings_window.destroy()
