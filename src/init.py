@@ -11,6 +11,7 @@ from PIL import Image, ImageTk
 
 # Import the CSV-Management module
 from csv_manager import *
+from editing_mode import *
 
 """
 ToDo:
@@ -38,7 +39,7 @@ class LightweightNotesApp:
     """
     def __init__(self, master):
         """
-        Initializes the main application window and sets up the login screen
+        Constructor, who initializes the main application window and sets up the login screen
         """
         self.master = master
         self.master.title("pt1 - Lightweight Notes")
@@ -272,7 +273,7 @@ class LightweightNotesApp:
 
             if self.uid in first_line:
                 print(f"Editing file: {file_path}")
-                # Awaits further implementation here
+                editing_mode(self)
             else:
                 print("You don't have permission to edit this file.")
 
