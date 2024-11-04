@@ -120,6 +120,9 @@ class LightweightNotesApp:
         for widget in self.master.winfo_children():
             widget.destroy()
 
+        if hasattr(self, 'menu') and self.menu:
+            self.menu.destroy()    
+
     def init_application(self):
         """
         Initializes the main application interface after a successful login. 
