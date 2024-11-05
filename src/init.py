@@ -291,6 +291,7 @@ class LightweightNotesApp:
             self.settings_window.title("pt1 Lightweight Notes - Settings")
             self.settings_window.geometry("400x200")
             self.settings_window.resizable(False, False)
+            self.settings_window.after(100, self.settings_window.lift)
 
             # Add close callback to set reference to None when the window is closed
             self.settings_window.protocol("WM_DELETE_WINDOW", self.on_settings_close)
