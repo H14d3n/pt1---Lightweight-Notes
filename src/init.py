@@ -27,7 +27,8 @@ ctk.deactivate_automatic_dpi_awareness()
 
 runpath = os.getcwd()
 csv_file_path = get_csv_path() # Function is in csv_manager.py
-font_path = f'{runpath}/src/fonts/Quicksand-Light.ttf'
+font_path = f'{runpath}\\src\\fonts\\Quicksand-Light.ttf'
+
 
 
 class LightweightNotesApp:
@@ -119,9 +120,7 @@ class LightweightNotesApp:
         """
         for widget in self.master.winfo_children():
             widget.destroy()
-
-        if hasattr(self, 'menu') and self.menu:
-            self.menu.destroy()    
+ 
 
     def init_application(self):
         """
