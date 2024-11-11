@@ -150,7 +150,7 @@ class LightweightNotesApp:
         file_menu = CustomDropdownMenu(widget=opt_file)
         file_menu.add_option(option="Neu", command=self.create_document)
         file_menu.add_option(option="Open", command=self.open_document)
-        file_menu.add_option(option="Save", command=lambda: print("Saved"))
+        file_menu.add_option(option="Save", command=lambda: print("Saved")) 
 
         file_menu.add_separator()
 
@@ -275,6 +275,7 @@ class LightweightNotesApp:
 
             if self.uid in first_line:
                 print(f"Editing file: {file_path}")
+                self.clear_window()
                 editing_mode(self, file_path)
             else:
                 print("You don't have permission to edit this file.")
@@ -311,7 +312,6 @@ class LightweightNotesApp:
         """
         self.settings_window.destroy()
         self.settings_window = None
-
 
 # Initialize the application
 if __name__ == "__main__":
