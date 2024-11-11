@@ -6,8 +6,6 @@ def editing_mode(self, file_path):
     Manages the editing process of an opened document by providing the functionality
     to write to the file.
     """
-    self.clear_window()
-    self.init_menu_bar()
 
     # Set up a title and text area for editing
     title_label = ctk.CTkLabel(self.master, text="Editing Document", font=('Bold Calibri', 20))
