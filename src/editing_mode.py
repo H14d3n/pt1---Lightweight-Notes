@@ -7,12 +7,14 @@ def editing_mode(self, file_path):
     to write to the file.
     """
 
+    self.init_menu_bar()
+
     # Set up a title and text area for editing
     title_label = ctk.CTkLabel(self.master, text="Editing Document", font=('Bold Calibri', 20))
     title_label.pack(pady=(10, 5))
 
     # Scrolled text widget for the document's content
-    text_area = scrolledtext.ScrolledText(self.master, wrap=tk.WORD, width=100, height=25)
+    text_area = scrolledtext.ScrolledText(self.master, wrap=tk.WORD, width=100, height=25, undo=True)
     text_area.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
 
     # Load and display the content of the file in the text area
@@ -23,6 +25,10 @@ def editing_mode(self, file_path):
     except Exception as e:
         print(f"Error reading file: {e}")
         self.display_message("Failed to load document content.")
+
+    # Bind undo and redo to CTRL+Z and CTRL+Y
+    text_area.bind("<Control-z>", lambda event: text_area.edit_undo())
+    text_area.bind("<Control-y>", lambda event: text_area.edit_redo())    
 
     # Save button
     save_button = ctk.CTkButton(self.master, text="Save", command=lambda: save_document(self, file_path, text_area))
