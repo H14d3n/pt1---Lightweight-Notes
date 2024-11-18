@@ -34,28 +34,21 @@ font_path = f'{runpath}\\src\\fonts\\Quicksand-Light.ttf'
 class LightweightNotesApp:
     """
     Main Application Window for pt1 - Lightweight Notes.
-    <p>
-    This class manages the overall structure and flow of the application, 
-    including user login, document creation, and settings management.
     """
     def __init__(self, master):
-        """
-        Constructor, who initializes the main application window and sets up the login screen
-        """
         self.master = master
         self.master.title("pt1 - Lightweight Notes")
         self.master.geometry('350x350')
         self.master.resizable(False, False)
         self.uid = None
-
         self.settings_window = None
+        self.current_file_path = None  # To track the file being edited
+        self.current_text_area = None  # To track the text area in editing mode
         self.init_login_screen()
-
 
     def init_login_screen(self):
         """
-        Initializes and displays the login screen, allowing users to input 
-        their surname and password.
+        Initializes and displays the login screen.
         """
         self.clear_window()
 
@@ -76,13 +69,12 @@ class LightweightNotesApp:
 
     def handle_login(self):
         """
-        Handles the login process, validating the user's input and authenticating 
-        against stored credentials in the CSV file.
+        Handles the login process.
         """
         self.display_message("")
         surname = self.surname_entry.get()
         password = self.password_entry.get()
-        
+
         if surname and password:
             self.check_credentials(surname, password)
         else:
@@ -90,8 +82,7 @@ class LightweightNotesApp:
 
     def check_credentials(self, surname, password):
         """
-        Checks the entered credentials (surname and password) against the stored 
-        CSV data. If valid, proceeds to initialize the main application interface.
+        Checks the entered credentials.
         """
         with open(csv_file_path, mode='r', newline='') as file:
             reader = csv.DictReader(file, delimiter=';')
@@ -104,28 +95,24 @@ class LightweightNotesApp:
 
     def display_message(self, message):
         """
-        Displays a message on the login screen, typically used for errors or 
-        instructions.
+        Displays a message on the login screen.
         """
         if self.message_label:
             self.message_label.destroy()
-        
+
         self.message_label = ctk.CTkLabel(self.master, text=message, font=('Bold Calibri', 12), text_color="red")
         self.message_label.place(relx=0.1, rely=0.8, relwidth=0.8)
 
     def clear_window(self):
         """
-        Clears all widgets from the current window to prepare for a new screen 
-        or interface.
+        Clears all widgets from the current window.
         """
         for widget in self.master.winfo_children():
             widget.destroy()
- 
 
     def init_application(self):
         """
-        Initializes the main application interface after a successful login. 
-        This includes setting up the dashboard and menu bar.
+        Initializes the main application interface.
         """
         self.clear_window()
 
@@ -138,8 +125,7 @@ class LightweightNotesApp:
 
     def init_menu_bar(self):
         """
-        Initializes the menu bar with options such as File, Edit, Settings, and About, 
-        including actions like creating, opening, saving, and exporting documents.
+        Initializes the menu bar with various options.
         """
         menu = CTkMenuBar(master=self.master)
         opt_file = menu.add_cascade("File")
@@ -148,9 +134,9 @@ class LightweightNotesApp:
         opt_about = menu.add_cascade("About")
 
         file_menu = CustomDropdownMenu(widget=opt_file)
-        file_menu.add_option(option="Neu", command=self.create_document)
+        file_menu.add_option(option="New", command=self.create_document)
         file_menu.add_option(option="Open", command=self.open_document)
-        file_menu.add_option(option="Save", command=lambda: print("Saved")) 
+        file_menu.add_option(option="Save", command=self.save_current_document)
 
         file_menu.add_separator()
 
@@ -172,6 +158,15 @@ class LightweightNotesApp:
 
         about_menu = CustomDropdownMenu(widget=opt_about)
         about_menu.add_option(option="About pt1 - Lightweight Notes")
+
+    def save_current_document(self):
+        """
+        Saves the currently open document.
+        """
+        if self.current_file_path and self.current_text_area:
+            save_document(self, self.current_file_path, self.current_text_area)
+        else:
+            self.display_message("No document is currently open for saving.")
 
     def init_dashboard(self):
         """
