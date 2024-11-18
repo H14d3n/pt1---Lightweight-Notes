@@ -15,7 +15,6 @@ from editing_mode import *
 
 """
 ToDo:
- * Main Editor
  * Account creator
  * (Optional) Add Editor functionalities.
 """
@@ -42,6 +41,7 @@ class LightweightNotesApp:
         self.master.resizable(False, False)
         self.uid = None
         self.settings_window = None
+        self.about_window = None
         self.current_file_path = None  # To track the file being edited
         self.current_text_area = None  # To track the text area in editing mode
         self.init_login_screen()
@@ -157,7 +157,7 @@ class LightweightNotesApp:
         settings_menu.add_option(option="Settings", command=self.open_settings)
 
         about_menu = CustomDropdownMenu(widget=opt_about)
-        about_menu.add_option(option="About pt1 - Lightweight Notes")
+        about_menu.add_option(option="About pt1 - Lightweight Notes", command=self.open_about)
 
     def save_current_document(self):
         """
@@ -307,6 +307,38 @@ class LightweightNotesApp:
         """
         self.settings_window.destroy()
         self.settings_window = None
+
+    def open_about(self):
+        """
+        Opens the 'About' window. Ensures only one instance is open at a time.
+        """
+        if self.about_window is None or not self.about_window.winfo_exists():
+            self.about_window = ctk.CTkToplevel(self.master)
+            self.about_window.title("pt1 Lightweight Notes - About")
+            self.about_window.geometry("200x100")
+            self.about_window.resizable(False, False)
+
+            # Add content to the About window
+            about_label = ctk.CTkLabel(
+                self.about_window, 
+                text="pt1 Lightweight Notes\nVersion 1.0\nCreated by Tizian Imseng", 
+                justify="center", 
+                font=('Bold Calibri', 14)
+            )
+            about_label.pack(pady=20, padx=20)
+
+            # Intercept the window close event
+            self.about_window.protocol("WM_DELETE_WINDOW", self.close_about)
+            self.about_window.after(100, self.about_window.lift)
+
+    def close_about(self):
+        """
+        Handles closing the 'About' window and resetting its reference.
+        """
+        if self.about_window is not None:
+            self.about_window.destroy()
+            self.about_window = None
+
 
 # Initialize the application
 if __name__ == "__main__":
