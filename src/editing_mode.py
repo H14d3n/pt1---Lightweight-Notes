@@ -1,12 +1,12 @@
 from tkinter import scrolledtext
-from init import *
+import tkinter as tk
+import customtkinter as ctk
+
 
 def editing_mode(self, file_path):
     """
-    Manages the editing process of an opened document by providing the functionality
-    to write to the file.
+    Manages the editing process of an opened document.
     """
-
     self.init_menu_bar()
 
     # Set up a title and text area for editing
@@ -16,6 +16,10 @@ def editing_mode(self, file_path):
     # Scrolled text widget for the document's content
     text_area = scrolledtext.ScrolledText(self.master, wrap=tk.WORD, width=100, height=25, undo=True)
     text_area.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
+
+    # Store the current file path and text area for Save functionality
+    self.current_file_path = file_path
+    self.current_text_area = text_area
 
     # Load and display the content of the file in the text area
     try:
@@ -28,7 +32,7 @@ def editing_mode(self, file_path):
 
     # Bind undo and redo to CTRL+Z and CTRL+Y
     text_area.bind("<Control-z>", lambda event: text_area.edit_undo())
-    text_area.bind("<Control-y>", lambda event: text_area.edit_redo())    
+    text_area.bind("<Control-y>", lambda event: text_area.edit_redo())
 
     # Save button
     save_button = ctk.CTkButton(self.master, text="Save", command=lambda: save_document(self, file_path, text_area))
@@ -37,6 +41,7 @@ def editing_mode(self, file_path):
     # Return to Dashboard button
     back_button = ctk.CTkButton(self.master, text="Back to Dashboard", command=self.init_application)
     back_button.pack(side=tk.RIGHT, padx=10, pady=10)
+
 
 def save_document(self, file_path, text_area):
     """
