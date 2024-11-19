@@ -315,13 +315,13 @@ class LightweightNotesApp:
         if self.about_window is None or not self.about_window.winfo_exists():
             self.about_window = ctk.CTkToplevel(self.master)
             self.about_window.title("pt1 Lightweight Notes - About")
-            self.about_window.geometry("200x100")
+            self.about_window.geometry("210x105")
             self.about_window.resizable(False, False)
 
             # Add content to the About window
             about_label = ctk.CTkLabel(
                 self.about_window, 
-                text="pt1 Lightweight Notes\nVersion 1.0\nCreated by Tizian Imseng", 
+                text="pt1 - Lightweight Notes\n-------------\nVersion 1.0\nCreated by Tizian Imseng", 
                 justify="center", 
                 font=('Bold Calibri', 14)
             )
