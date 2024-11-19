@@ -144,7 +144,7 @@ class LightweightNotesApp:
         export_sub_menu.add_option(option=".PDF", command=lambda: print("Exported as PDF"))
         export_sub_menu.add_option(option=".docx", command=lambda: print("Exported as docx"))
 
-        file_menu.add_option(option="Save as", command=lambda: print("Saved as"))
+        file_menu.add_option(option="Save as", command=self.create_document)
         file_menu.add_option(option="Rename", command=lambda: print("Renamed"))
         file_menu.add_option(option="Exit", command=self.master.destroy)
 
