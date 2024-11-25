@@ -8,6 +8,7 @@ from PIL import Image
 from tkinter import filedialog, Text
 import datetime
 from PIL import Image, ImageTk
+import asyncio
 
 # Import the CSV-Management module
 from csv_manager import *
@@ -78,43 +79,40 @@ class LightweightNotesApp:
         """
         Handles the login process.
         """
-        self.display_message("")
+        self.display_message("", "green")
         surname = self.surname_entry.get()
         password = self.password_entry.get()
 
         if surname and password:
             self.check_credentials(surname, password)
         else:
-            self.display_message("Please enter both surname and password.")
+            self.display_message("Please enter both surname and password.", "red")
 
     def check_credentials(self, surname, password):
         """
-        Checks the entered credentials.
+        Checks the entered credentials. 
         """
         with open(csv_file_path, mode='r', newline='') as file:
             reader = csv.DictReader(file, delimiter=';')
             for row in reader:
                 if row['first_name'] == surname and row['password'] == password:
+                    self.display_message("Sign in was successful", "green")
                     self.uid = row['uid']
                     self.init_application()
                     return
-        self.display_message("Invalid credentials.")
+        self.display_message("Invalid credentials.", "red")
 
-    def display_message(self, message):
+    def display_message(self, message, color):
         """
         Displays a message on the login screen.
         """
         if self.message_label:
             self.message_label.destroy()
 
-        if "password" or "currently" or "credentials" in message:
-            self.message_label = ctk.CTkLabel(self.master, text=message, font=('Bold Calibri', 12), text_color="red")
-            self.message_label.place(relx=0.1, rely=0.55, relwidth=0.8)
-        else:
-            self.message_label = ctk.CTkLabel(self.master, text=message, font=('Bold Calibri', 12), text_color="green")
-            self.message_label.place(relx=0.1, rely=2, relwidth=0.8)
+        self.message_label = ctk.CTkLabel(self.master, text=message, font=('Bold Calibri', 12), text_color=color)
+        self.message_label.place(relx=0.1, rely=0.55, relwidth=0.8)
 
-
+            
     def clear_window(self): 
         """
         Clears all widgets from the current window.
@@ -178,7 +176,7 @@ class LightweightNotesApp:
         if self.current_file_path and self.current_text_area:
             save_document(self, self.current_file_path, self.current_text_area)
         else:
-            self.display_message("No document is currently open for saving.")
+            self.display_message("No document is currently open for saving.", "red")
 
     def init_dashboard(self):
         """
@@ -285,7 +283,7 @@ class LightweightNotesApp:
                 self.clear_window()
                 editing_mode(self, file_path)
             else:
-                print("You don't have permission to edit this file.")
+                self.display_message("You don't have permission to edit this file.", "red")
 
 
     def open_settings(self):
@@ -357,7 +355,7 @@ class LightweightNotesApp:
         if self.about_window is not None:
             self.about_window.destroy()
             self.about_window = None
-
+      
 
 # Initialize the application
 if __name__ == "__main__":

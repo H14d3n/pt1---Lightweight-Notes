@@ -51,7 +51,9 @@ def save_document(self, file_path, text_area):
     try:
         with open(file_path, 'w') as file:
             file.write(content)
-        self.display_message("Document saved successfully.")
+        self.display_message("Document saved successfully.", "green")
     except Exception as e:
         print(f"Error saving file: {e}")
-        self.display_message("Failed to save document.")
+        self.display_message("Failed to save document.", "red")
+
+     
