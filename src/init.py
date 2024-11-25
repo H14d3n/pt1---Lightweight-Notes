@@ -12,6 +12,7 @@ from PIL import Image, ImageTk
 # Import the CSV-Management module
 from csv_manager import *
 from editing_mode import *
+from create_account import *
 
 """
 ToDo:
@@ -56,14 +57,20 @@ class LightweightNotesApp:
         title.place(relx=0.40625, rely=0.1)
 
         self.surname_entry = ctk.CTkEntry(self.master, placeholder_text="Surname", corner_radius=14)
-        self.surname_entry.place(relx=0.1, rely=0.3, relwidth=0.8)
+        self.surname_entry.place(relx=0.1, rely=0.25, relwidth=0.8)
 
         self.password_entry = ctk.CTkEntry(self.master, placeholder_text="Password", corner_radius=14)
         self.password_entry.configure(show="*")
-        self.password_entry.place(relx=0.1, rely=0.5, relwidth=0.8)
+        self.password_entry.place(relx=0.1, rely=0.45, relwidth=0.8)
 
         login_button = ctk.CTkButton(self.master, text="Login", command=self.handle_login)
-        login_button.place(relx=0.1, rely=0.7, relwidth=0.8)
+        login_button.place(relx=0.1, rely=0.65, relwidth=0.8)
+        
+        or_label = ctk.CTkLabel(self.master, text="or")
+        or_label.place(relx=0.475, rely=0.75)
+
+        create_account_button = ctk.CTkButton(self.master, text="Create Account", command=create_account)
+        create_account_button.place(relx=0.25, rely=0.85, relwidth=0.5)
 
         self.message_label = None
 
@@ -101,7 +108,7 @@ class LightweightNotesApp:
             self.message_label.destroy()
 
         self.message_label = ctk.CTkLabel(self.master, text=message, font=('Bold Calibri', 12), text_color="red")
-        self.message_label.place(relx=0.1, rely=0.8, relwidth=0.8)
+        self.message_label.place(relx=0.1, rely=0.55, relwidth=0.8)
 
     def clear_window(self):
         """
@@ -346,3 +353,4 @@ if __name__ == "__main__":
     app = ctk.CTk()
     LightweightNotesApp(app)
     app.mainloop()
+    
