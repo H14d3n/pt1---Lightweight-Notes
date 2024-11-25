@@ -28,7 +28,7 @@ def editing_mode(self, file_path):
             text_area.insert(tk.END, content)
     except Exception as e:
         print(f"Error reading file: {e}")
-        self.display_message("Failed to load document content.")
+        self.display_message("Failed to load document content.", "red")
 
     # Bind undo and redo to CTRL+Z and CTRL+Y
     text_area.bind("<Control-z>", lambda event: text_area.edit_undo())
@@ -51,9 +51,9 @@ def save_document(self, file_path, text_area):
     try:
         with open(file_path, 'w') as file:
             file.write(content)
-        self.display_message("Document saved successfully.", "green")
+        self.display_message("Document saved successfully.", "green", duration=2000)
     except Exception as e:
         print(f"Error saving file: {e}")
-        self.display_message("Failed to save document.", "red")
+        self.display_message("Failed to save document.", "red", duration=2000)
 
      
