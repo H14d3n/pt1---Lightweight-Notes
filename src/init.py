@@ -98,11 +98,11 @@ class LightweightNotesApp:
                 if row['first_name'] == surname and row['password'] == password:
                     self.display_message("Sign in was successful", "green")
                     self.uid = row['uid']
-                    self.init_application()
+                    self.master.after(2000, self.init_application)
                     return
         self.display_message("Invalid credentials.", "red")
 
-    def display_message(self, message, color):
+    def display_message(self, message, color, duration=None):
         """
         Displays a message on the login screen.
         """
@@ -111,6 +111,9 @@ class LightweightNotesApp:
 
         self.message_label = ctk.CTkLabel(self.master, text=message, font=('Bold Calibri', 12), text_color=color)
         self.message_label.place(relx=0.1, rely=0.55, relwidth=0.8)
+
+        if duration:
+            self.master.after(duration, self.message_label.destroy)
 
             
     def clear_window(self): 
@@ -176,7 +179,8 @@ class LightweightNotesApp:
         if self.current_file_path and self.current_text_area:
             save_document(self, self.current_file_path, self.current_text_area)
         else:
-            self.display_message("No document is currently open for saving.", "red")
+            self.display_message("No document is currently open for saving.", "red", duration=4000)
+
 
     def init_dashboard(self):
         """
@@ -283,7 +287,7 @@ class LightweightNotesApp:
                 self.clear_window()
                 editing_mode(self, file_path)
             else:
-                self.display_message("You don't have permission to edit this file.", "red")
+                self.display_message("You don't have permission to edit this file.", "red", duration=2000)
 
 
     def open_settings(self):
