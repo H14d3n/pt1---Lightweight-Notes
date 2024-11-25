@@ -38,7 +38,7 @@ class LightweightNotesApp:
     def __init__(self, master):
         self.master = master
         self.master.title("pt1 - Lightweight Notes")
-        self.master.geometry('350x350')
+        self.master.geometry('350x375')
         self.master.resizable(False, False)
         self.uid = None
         self.settings_window = None
@@ -107,10 +107,15 @@ class LightweightNotesApp:
         if self.message_label:
             self.message_label.destroy()
 
-        self.message_label = ctk.CTkLabel(self.master, text=message, font=('Bold Calibri', 12), text_color="red")
-        self.message_label.place(relx=0.1, rely=0.55, relwidth=0.8)
+        if "password" or "currently" or "credentials" in message:
+            self.message_label = ctk.CTkLabel(self.master, text=message, font=('Bold Calibri', 12), text_color="red")
+            self.message_label.place(relx=0.1, rely=0.55, relwidth=0.8)
+        else:
+            self.message_label = ctk.CTkLabel(self.master, text=message, font=('Bold Calibri', 12), text_color="green")
+            self.message_label.place(relx=0.1, rely=2, relwidth=0.8)
 
-    def clear_window(self):
+
+    def clear_window(self): 
         """
         Clears all widgets from the current window.
         """
@@ -151,7 +156,7 @@ class LightweightNotesApp:
         export_sub_menu.add_option(option=".PDF", command=lambda: print("Exported as PDF"))
         export_sub_menu.add_option(option=".docx", command=lambda: print("Exported as docx"))
 
-        file_menu.add_option(option="Save as", command=self.create_document)
+        file_menu.add_option(option="Save as", command=self.save_current_document)
         file_menu.add_option(option="Rename", command=lambda: print("Renamed"))
         file_menu.add_option(option="Exit", command=self.master.destroy)
 
@@ -299,13 +304,20 @@ class LightweightNotesApp:
             self.settings_window.protocol("WM_DELETE_WINDOW", self.on_settings_close)
 
             settings_change_theme_label = ctk.CTkLabel(self.settings_window, text="Change Theme")
-            settings_change_theme_label.place(relx=0.03, rely=0.05)
+            settings_change_theme_label.place(relx=0.175, rely=0.05)
 
             light_theme_button = ctk.CTkButton(self.settings_window, text="Light", command=lambda: print("Light Mode"))
-            light_theme_button.place(relx=0.03, rely=0.2, relwidth=0.2, relheight=0.1)
+            light_theme_button.place(relx=0.03, rely=0.2, relwidth=0.5, relheight=0.3)
 
             dark_theme_button = ctk.CTkButton(self.settings_window, text="Dark", command=lambda: print("Dark Mode"))
-            dark_theme_button.place(relx=0.03, rely=0.325, relwidth=0.2, relheight=0.1)
+            dark_theme_button.place(relx=0.03, rely=0.55, relwidth=0.5, relheight=0.3)
+
+            settings_logout_label = ctk.CTkLabel(self.settings_window, text="Logout of Account")
+            settings_logout_label.place(relx=0.6425, rely=0.05)
+
+            settings_logout_button = ctk.CTkButton(self.settings_window, text="𓉞", font=('Calibri', 50))
+            settings_logout_button.place(relx=0.625, rely=0.2, relwidth=0.3, relheight=0.65)
+
     
     def on_settings_close(self):
         """
