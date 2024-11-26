@@ -48,7 +48,7 @@ def decrypt_content(password, encrypted_content):
     """
     decoded_data = base64.b64decode(encrypted_content.encode())
     salt = decoded_data[:SALT_SIZE]
-    iv = decoded_data[SALT_SIZE:SALT_SIZE + 12]
+    iv = decoded_data[SALT_SIZE:SALT_SIZE + 12] 
     ciphertext = decoded_data[SALT_SIZE + 12:]
     
     key = generate_key(password, salt)

@@ -8,7 +8,6 @@ from PIL import Image
 from tkinter import filedialog, Text
 import datetime
 from PIL import Image, ImageTk
-import asyncio
 
 # Import the CSV-Management module
 from csv_manager import *

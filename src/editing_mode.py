@@ -34,6 +34,9 @@ def editing_mode(self, file_path):
     text_area.bind("<Control-z>", lambda event: text_area.edit_undo())
     text_area.bind("<Control-y>", lambda event: text_area.edit_redo())
 
+    # Bind CTRL+S to the save function
+    text_area.bind("<Control-s>", lambda event: save_document(self, file_path, text_area))
+
     # Save button
     save_button = ctk.CTkButton(self.master, text="Save", command=lambda: save_document(self, file_path, text_area))
     save_button.pack(side=tk.LEFT, padx=10, pady=10)
@@ -55,5 +58,3 @@ def save_document(self, file_path, text_area):
     except Exception as e:
         print(f"Error saving file: {e}")
         self.display_message("Failed to save document.", "red", duration=2000)
-
-     
