@@ -67,7 +67,7 @@ class LightweightNotesApp:
         login_button.place(relx=0.1, rely=0.65, relwidth=0.8)
         
         or_label = ctk.CTkLabel(self.master, text="or")
-        or_label.place(relx=0.475, rely=0.75)
+        or_label.place(relx=0.4825, rely=0.75)
 
         create_account_button = ctk.CTkButton(self.master, text="Create Account", command=create_account)
         create_account_button.place(relx=0.25, rely=0.85, relwidth=0.5)
@@ -316,7 +316,7 @@ class LightweightNotesApp:
             settings_logout_label = ctk.CTkLabel(self.settings_window, text="Logout of Account")
             settings_logout_label.place(relx=0.6425, rely=0.05)
 
-            settings_logout_button = ctk.CTkButton(self.settings_window, text="𓉞", font=('Calibri', 50))
+            settings_logout_button = ctk.CTkButton(self.settings_window, text="𓉞", font=('Calibri', 50), command=self.logout)
             settings_logout_button.place(relx=0.625, rely=0.2, relwidth=0.3, relheight=0.65)
 
     
@@ -358,6 +358,23 @@ class LightweightNotesApp:
         if self.about_window is not None:
             self.about_window.destroy()
             self.about_window = None
+
+    def logout(self):
+        """
+        Logs out the user, resets the application window to the login screen size, 
+        and reinitializes the login screen.
+        """
+        print(f"logged out User: {self.uid}" )
+        self.uid = None  # Clear the user ID
+
+        # Reset window size to match the login screen
+        self.master.resizable(True, True)
+
+        # Reinitialize the login screen
+        self.init_login_screen()
+   
+            
+
       
 
 # Initialize the application
