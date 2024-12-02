@@ -89,7 +89,7 @@ class LightweightNotesApp:
 
     def check_credentials(self, surname, password):
         """
-        Checks the entered credentials. 
+        Checks the entered credentials.
         """
         with open(csv_file_path, mode='r', newline='') as file:
             reader = csv.DictReader(file, delimiter=';')
@@ -115,7 +115,7 @@ class LightweightNotesApp:
             self.master.after(duration, self.message_label.destroy)
 
             
-    def clear_window(self): 
+    def clear_window(self):
         """
         Clears all widgets from the current window.
         """
@@ -364,7 +364,7 @@ class LightweightNotesApp:
         Logs out the user, resets the application window to the login screen size, 
         and reinitializes the login screen.
         """
-        print(f"logged out User: {self.uid}" )
+        print(f"logged out User: {self.uid}")
         self.uid = None  # Clear the user ID
 
         # Reset window size to match the login screen
@@ -373,9 +373,6 @@ class LightweightNotesApp:
         # Reinitialize the login screen
         self.init_login_screen()
    
-            
-
-      
 
 # Initialize the application
 if __name__ == "__main__":
@@ -383,4 +380,3 @@ if __name__ == "__main__":
     app = ctk.CTk()
     LightweightNotesApp(app)
     app.mainloop()
-    

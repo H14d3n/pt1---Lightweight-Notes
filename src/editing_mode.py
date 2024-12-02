@@ -36,13 +36,14 @@ def editing_mode(self, file_path):
 
     # Bind CTRL+S to the save function
     text_area.bind("<Control-s>", lambda event: save_document(self, file_path, text_area))
+    text_area.bind("<Control-q>", lambda event: self.init_application())
 
     # Save button
-    save_button = ctk.CTkButton(self.master, text="Save", command=lambda: save_document(self, file_path, text_area))
+    save_button = ctk.CTkButton(self.master, text="Save (CTRL + S)", command=lambda: save_document(self, file_path, text_area))
     save_button.pack(side=tk.LEFT, padx=10, pady=10)
 
     # Return to Dashboard button
-    back_button = ctk.CTkButton(self.master, text="Back to Dashboard", command=self.init_application)
+    back_button = ctk.CTkButton(self.master, text="Back to Dashboard (CTRL + Q)", command=self.init_application)
     back_button.pack(side=tk.RIGHT, padx=10, pady=10)
 
 
