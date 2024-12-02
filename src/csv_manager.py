@@ -39,4 +39,3 @@ def create_csv():
         writer.writerow({"uid": "1", "first_name": "admin", "password": "localadminfern"})
     
     print(f"CSV created at {csv_file_path}")
-
