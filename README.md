@@ -42,6 +42,60 @@ Welcome to **pt1 - Lightweight Notes**, an elegant way to manage your notes! Thi
 
 ---
 
+## 🚀 Usage Guide
+
+### 🔐 Login
+- Enter your username and password.
+- Don’t have an account? Click **Create Account** to sign up.
+
+### 📄 Manage Notes
+- Use the **File** menu to:
+  - **New Note**: Start a new document.
+  - **Open Note**: Load an existing note.
+  - **Save Note**: Save your current work.
+  - **Export Note**: Export your note to other formats.
+
+### 🛠️ Settings
+- Access the settings from the menu to tweak the application.
+
+### ❓ About
+- Learn about the app and its developers.
+
+
+---
+
+## 🧩 File Structure
+
+### 📂 pt1 - Lightweight Notes
+
+```
+📁 pt1 - Lightweight Notes
+ ├── 📁 src
+     ├── 📄 init.py                # Main application file
+     ├── 📄 editing_mode.py        # Editing functionality
+     ├── 📄 create_account.py      # Account creation logic
+     ├── 📄 csv_manager.py         # CSV management utilities
+     ├── 📄 encryption.py          # Encryption utilities
+     ├── 📄 unittest.py            # Unit testing
+     ├── 📁 fonts
+     │   ├── 🔤 Quicksand-Bold.ttf
+     │   ├── 🔤 Quicksand-Light.ttf
+     │   ├── 🔤 Quicksand-Medium.ttf
+     │   ├── 🔤 Quicksand-Regular.ttf
+     │   └── 🔤 Quicksand-SemiBold.ttf
+     ├── 📁 img
+         ├── 🖼️ FolderBlack.png
+         ├── 🖼️ FolderWhite.png
+         ├── 🖼️ PlusBlack.png
+         ├── 🖼️ PlusWhite.png
+         ├── 🖼️ pt1Logo_smoothed.png
+         ├── 🖼️ pt1Logo.png
+         ├── 🖼️ SettingsBlack.png
+         └── 🖼️ SettingsWhite.png
+```
+
+---
+
 ## 🛠️ Installation and Setup from Source
 
 1. **Clone the Repository**:
@@ -66,58 +120,12 @@ Welcome to **pt1 - Lightweight Notes**, an elegant way to manage your notes! Thi
 
 ---
 
-## 🚀 Usage Guide
-
-### 🔐 Login
-- Enter your username and password.
-- Don’t have an account? Click **Create Account** to sign up.
-
-### 📄 Manage Notes
-- Use the **File** menu to:
-  - **New Note**: Start a new document.
-  - **Open Note**: Load an existing note.
-  - **Save Note**: Save your current work.
-  - **Export Note**: Export your note to other formats.
-
-### 🛠️ Settings
-- Access the settings from the menu to tweak the application.
-
-### ❓ About
-- Learn about the app and its developers.
-
----
-
-## 🧩 File Structure
-
-```
-📁 pt1 - Lightweight Notes
-├── 📄 init.py                 # Main application file
-├── 📄 requirements.txt       # Python dependencies
-├── 📁 fonts
-    ├── 🔤 Quicksand-Bold.ttf
-    ├── 🔤 Quicksand-Light.ttf
-    ├── 🔤 Quicksand-Medium.ttf
-    ├── 🔤 Quicksand-Regular.ttf
-    └── 🔤 Quicksand-SemiBold.ttf
-├── 📁 img
-    ├── 🖼️ FolderBlack.png
-    ├── 🖼️ FolderWhite.png
-    ├── 🖼️ PlusBlack.png
-    ├── 🖼️ PlusWhite.png
-    ├── 🖼️ pt1Logo_smoothed.png
-    ├── 🖼️ pt1Logo.png
-    ├── 🖼️ SettingsBlack.png
-    └── 🖼️ SettingsWhite.png
-
-```
-
----
-
 ## 🔮 Future Features
 
 - **📊 Document Search**: Quickly find notes from the dashboard.
 - **🔗 Cloud Sync**: Save notes securely to the cloud.
   
+---
 
 ## 🤝 Contributing
 
