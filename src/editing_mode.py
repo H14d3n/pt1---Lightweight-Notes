@@ -45,7 +45,7 @@ def editing_mode(self, file_path):
     # Return to Dashboard button
     back_button = ctk.CTkButton(self.master, text="Back to Dashboard (CTRL + Q)", command=self.init_application)
     back_button.pack(side=tk.RIGHT, padx=10, pady=10)
-
+  
 
 def save_document(self, file_path, text_area):
     """

@@ -16,8 +16,12 @@ from create_account import *
 
 """
 ToDo:
- * Account creator
- * (Optional) Add Editor functionalities.
+ ! Account creator
+ ! En- and Decryption of Files / User-CSV.
+ * Implement"Change Font" functionality
+ * Implement "Export" functionalities
+ * Implement "Theme change" functionality
+ ? Fix bad window path name bug (tkinter.TclError)
 """
 
 # Global configurations
@@ -28,7 +32,6 @@ ctk.deactivate_automatic_dpi_awareness()
 runpath = os.getcwd()
 csv_file_path = get_csv_path() # Function is in csv_manager.py
 font_path = f'{runpath}\\src\\fonts\\Quicksand-Light.ttf'
-
 
 
 class LightweightNotesApp:
@@ -145,6 +148,7 @@ class LightweightNotesApp:
         opt_settings = menu.add_cascade("Settings")
         opt_about = menu.add_cascade("About")
 
+        # File Dropdown
         file_menu = CustomDropdownMenu(widget=opt_file)
         file_menu.add_option(option="New", command=self.create_document)
         file_menu.add_option(option="Open", command=self.open_document)
@@ -160,14 +164,18 @@ class LightweightNotesApp:
         file_menu.add_option(option="Rename", command=lambda: print("Renamed"))
         file_menu.add_option(option="Exit", command=self.master.destroy)
 
+        # Edit Dropdown
         edit_menu = CustomDropdownMenu(widget=opt_edit)
+        edit_menu.add_option(option="Change Font")
         edit_menu.add_option(option="Cut (CTRL + X)")
         edit_menu.add_option(option="Copy (CTRL + C)")
         edit_menu.add_option(option="Paste (CTRL + V)")
 
+        # Settings Dropdown
         settings_menu = CustomDropdownMenu(widget=opt_settings)
         settings_menu.add_option(option="Settings", command=self.open_settings)
 
+        # About Dropdown
         about_menu = CustomDropdownMenu(widget=opt_about)
         about_menu.add_option(option="About pt1 - Lightweight Notes", command=self.open_about)
 
