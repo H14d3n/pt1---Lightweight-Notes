@@ -49,9 +49,9 @@ def editing_mode(self, file_path):
 
 def save_document(self, file_path, text_area):
     """
-    Saves the current content of the text area back to the specified file.
+    Saves the current content of the text area back to the specified file. 
     """
-    content = text_area.get("1.0", tk.END)  # Get all text from the text area
+    content = text_area.get("1.0", tk.END)  # Get all text from the text area 
     try:
         with open(file_path, 'w') as file:
             file.write(content)

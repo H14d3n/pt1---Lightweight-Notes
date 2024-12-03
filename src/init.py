@@ -46,8 +46,7 @@ class LightweightNotesApp:
         self.uid = None
         self.settings_window = None
         self.about_window = None
-        self.current_file_path = None  # To track the file being edited
-        self.current_text_area = None  # To track the text area in editing mode
+        self.create_account_window = None 
         self.init_login_screen()
 
     def init_login_screen(self):
@@ -130,6 +129,8 @@ class LightweightNotesApp:
         Initializes the main application interface.
         """
         self.clear_window()
+        self.current_file_path = None  # To track the file being edited
+        self.current_text_area = None  # To track the text area in editing mode
 
         self.master.geometry('800x600')
         self.master.minsize(width=850, height=510)

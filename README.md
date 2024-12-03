@@ -61,7 +61,6 @@ Welcome to **pt1 - Lightweight Notes**, an elegant way to manage your notes! Thi
 ### ❓ About
 - Learn about the app and its developers.
 
-
 ---
 
 ## 🧩 File Structure
