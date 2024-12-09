@@ -17,7 +17,14 @@ def create_account(self):
             background_label = ctk.CTkLabel(self.create_account_window, image=background_image, text="")
             background_label.place(relwidth=1, relheight=1)
 
-            # Next do section for holding different entries with plain background color
+            seg_backgr = ctk.CTkFrame(self.create_account_window, fg_color="#1a1a1a", width=600, height=400)
+            seg_backgr.pack(padx=5, pady=5, expand=True)
+
+            container = ctk.CTkFrame(seg_backgr)
+            container.pack(fill="both", expand=True, padx=10, pady=10)
+
+                                                                     
+
 
             self.create_account_window.after(100, self.create_account_window.lift)
 
