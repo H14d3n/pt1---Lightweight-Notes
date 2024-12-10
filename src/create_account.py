@@ -7,6 +7,9 @@ from init import *
 from csv_manager import csv_file_path
 
 def init_creation(self):
+    """
+    Sets up the account creation window with input fields and a create button.
+    """
     if self.create_account_window is None or not self.create_account_window.winfo_exists():
         self.create_account_window = ctk.CTkToplevel(self.master)
         self.create_account_window.title("pt1 Lightweight Notes - Create Account")
@@ -32,22 +35,22 @@ def init_creation(self):
         image_label = ctk.CTkLabel(container, image=profile_image, text="")
         image_label.grid(row=0, column=0, rowspan=6, padx=20, pady=20, sticky="n")
 
-        firstname_label = ctk.CTkLabel(container, text="Vorname:", fg_color="transparent")
+        firstname_label = ctk.CTkLabel(container, text="Surname:", fg_color="transparent")
         firstname_label.grid(row=0, column=1, padx=20, pady=10, sticky="w")
 
-        firstname_entry = ctk.CTkEntry(container, placeholder_text="Geben Sie Ihren Vornamen ein")
+        firstname_entry = ctk.CTkEntry(container, placeholder_text="Enter your Surname...")
         firstname_entry.grid(row=1, column=1, padx=20, pady=10, sticky="ew")
 
-        password_label = ctk.CTkLabel(container, text="Passwort:", fg_color="transparent")
+        password_label = ctk.CTkLabel(container, text="Password:", fg_color="transparent")
         password_label.grid(row=2, column=1, padx=20, pady=10, sticky="w")
 
-        password_entry = ctk.CTkEntry(container, placeholder_text="Geben Sie Ihr Passwort ein", show="*")
+        password_entry = ctk.CTkEntry(container, placeholder_text="Enter your Password...", show="*")
         password_entry.grid(row=3, column=1, padx=20, pady=10, sticky="ew")
 
-        confirm_password_label = ctk.CTkLabel(container, text="Passwort bestätigen:", fg_color="transparent")
+        confirm_password_label = ctk.CTkLabel(container, text="Confirm Password:", fg_color="transparent")
         confirm_password_label.grid(row=4, column=1, padx=20, pady=10, sticky="w")
 
-        confirm_password_entry = ctk.CTkEntry(container, placeholder_text="Passwort erneut eingeben", show="*")
+        confirm_password_entry = ctk.CTkEntry(container, placeholder_text="Enter your Password... again", show="*")
         confirm_password_entry.grid(row=5, column=1, padx=20, pady=10, sticky="ew")
 
         create_button = ctk.CTkButton(container, text="Create", command=lambda: create_account(
@@ -62,6 +65,9 @@ def init_creation(self):
 
 
 def create_account(self, get_firstname, get_password, get_confirmation):
+    """
+    Validates inputs and creates a new account if no duplicate exists.
+    """
     if not check_password_compliance(get_password, get_confirmation):
         self.display_message("Passwords do not match or are not compliant.", "red", 2000)
         return
@@ -95,6 +101,9 @@ def create_account(self, get_firstname, get_password, get_confirmation):
 
 
 def check_password_compliance(get_password, get_confirmation):
+    """
+    Checks if the password and confirmation match.
+    """
     return get_password == get_confirmation
 
 
