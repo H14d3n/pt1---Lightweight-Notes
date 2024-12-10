@@ -71,7 +71,7 @@ class LightweightNotesApp:
         or_label = ctk.CTkLabel(self.master, text="or")
         or_label.place(relx=0.4825, rely=0.75)
 
-        create_account_button = ctk.CTkButton(self.master, text="Create Account", command=lambda: create_account(self))
+        create_account_button = ctk.CTkButton(self.master, text="Create Account", command=lambda: init_creation(self))
         create_account_button.place(relx=0.25, rely=0.85, relwidth=0.5)
 
         self.message_label = None
