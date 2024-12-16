@@ -16,58 +16,76 @@ def init_creation(self):
         self.create_account_window.geometry("900x600")
         self.create_account_window.resizable(False, False)
 
+        # Background image
         background_image = ctk.CTkImage(Image.open(f"{runpath}\\src\\img\\signup_background.jpg"), size=(900, 600))
         background_label = ctk.CTkLabel(self.create_account_window, image=background_image, text="")
         background_label.place(relwidth=1, relheight=1)
 
-        seg_backgr = ctk.CTkFrame(self.create_account_window, fg_color="#1a1a1a", width=800, height=500)
+        # Segment background frame
+        seg_backgr = ctk.CTkFrame(self.create_account_window, fg_color="#1a1a1a", width=900, height=550)
         seg_backgr.pack(padx=5, pady=5, expand=True)
 
+        # Container for inputs
         container = ctk.CTkFrame(seg_backgr, fg_color="#293133", width=500, height=400)
-        container.pack(padx=5, pady=5, fill="both", expand=True)
+        container.pack(padx=10, pady=10, fill="both", expand=True)
 
-        container.grid_rowconfigure([0, 1, 2, 3, 4, 5], weight=1)
+        # Configure grid for layout
+        container.grid_rowconfigure([0, 1, 2, 3, 4, 5, 6], weight=1)
         container.grid_columnconfigure(0, weight=1)
         container.grid_columnconfigure(1, weight=3)
 
+        # Profile image
         image_path = f"{runpath}\\src\\img\\user.png"
         profile_image = ctk.CTkImage(Image.open(image_path), size=(150, 150))
         image_label = ctk.CTkLabel(container, image=profile_image, text="")
         image_label.grid(row=0, column=0, rowspan=6, padx=20, pady=20, sticky="n")
 
+        # Input fields and labels
         firstname_label = ctk.CTkLabel(container, text="Surname:", fg_color="transparent")
-        firstname_label.grid(row=0, column=1, padx=20, pady=10, sticky="w")
+        firstname_label.grid(row=1, column=1, padx=10, pady=(5, 0), sticky="w")  # Slightly reduced top padding
 
         firstname_entry = ctk.CTkEntry(container, placeholder_text="Enter your Surname...")
-        firstname_entry.grid(row=1, column=1, padx=20, pady=10, sticky="ew")
+        firstname_entry.grid(row=2, column=1, padx=10, pady=(0, 5), sticky="ew")  # Reduced bottom padding
 
         password_label = ctk.CTkLabel(container, text="Password:", fg_color="transparent")
-        password_label.grid(row=2, column=1, padx=20, pady=10, sticky="w")
+        password_label.grid(row=3, column=1, padx=10, pady=(5, 0), sticky="w")  # Slightly reduced top padding
 
         password_entry = ctk.CTkEntry(container, placeholder_text="Enter your Password...", show="*")
-        password_entry.grid(row=3, column=1, padx=20, pady=10, sticky="ew")
+        password_entry.grid(row=4, column=1, padx=10, pady=(0, 5), sticky="ew")  # Reduced bottom padding
 
         confirm_password_label = ctk.CTkLabel(container, text="Confirm Password:", fg_color="transparent")
-        confirm_password_label.grid(row=4, column=1, padx=20, pady=10, sticky="w")
+        confirm_password_label.grid(row=5, column=1, padx=10, pady=(2, 0), sticky="w")  # Reduced top padding
 
         confirm_password_entry = ctk.CTkEntry(container, placeholder_text="Enter your Password... again", show="*")
-        confirm_password_entry.grid(row=5, column=1, padx=20, pady=10, sticky="ew")
+        confirm_password_entry.grid(row=6, column=1, padx=10, pady=(0, 5), sticky="ew")  # Reduced bottom padding
 
+        # Create button
         create_button = ctk.CTkButton(container, text="Create", command=lambda: create_account(
             self,
             firstname_entry.get(),
             password_entry.get(),
             confirm_password_entry.get()
         ))
-        create_button.grid(row=6, column=1, padx=20, pady=10, sticky="ew")
+        create_button.grid(row=6, column=0, padx=20, pady=20, sticky="sw", columnspan=2)  # Aligned to bottom-left
 
+        # Ensure the window stays on top
         self.create_account_window.after(100, self.create_account_window.lift)
+
 
 
 def create_account(self, get_firstname, get_password, get_confirmation):
     """
     Validates inputs and creates a new account if no duplicate exists.
     """
+
+    # Check if any field is empty
+    empty_field_message = check_if_empty(get_firstname, get_password, get_confirmation)
+
+    if empty_field_message:
+        self.display_message(empty_field_message, "red", 2000)
+        return # Stop account creation if fields are empty
+    
+
     if not check_password_compliance(get_password, get_confirmation):
         self.display_message("Passwords do not match or are not compliant.", "red", 2000)
         return
@@ -105,5 +123,19 @@ def check_password_compliance(get_password, get_confirmation):
     Checks if the password and confirmation match.
     """
     return get_password == get_confirmation
+
+def check_if_empty(get_firstname, get_password, get_confirmation):
+    """
+    Checks if any input is empty and returns False.
+    """
+    if not get_firstname.strip():
+        return "Please fill in your Surname."
+    if not get_password.strip():
+        return "Please enter your Password."
+    if not get_confirmation.strip():
+        return "Please confirm your Password."
+    return None  # All fields are valid
+
+
 
 
