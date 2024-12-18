@@ -82,12 +82,12 @@ def create_account(self, get_firstname, get_password, get_confirmation):
     empty_field_message = check_if_empty(get_firstname, get_password, get_confirmation)
 
     if empty_field_message:
-        self.display_message(empty_field_message, "red", 2000)
+        display_message(self, empty_field_message, "red", 2000)
         return # Stop account creation if fields are empty
     
 
     if not check_password_compliance(get_password, get_confirmation):
-        self.display_message("Passwords do not match or are not compliant.", "red", 2000)
+        display_message(self,"Passwords do not match or are not compliant.", "red", 2000)
         return
 
     try:
@@ -100,7 +100,7 @@ def create_account(self, get_firstname, get_password, get_confirmation):
 
         # Check if the file has a header and extract content accordingly
         if existing_users and get_firstname in [row[1] for row in existing_users[1:]]:
-            self.display_message("An account with this name already exists.", "red", 2000)
+            display_message(self, "An account with this name already exists.", "red", 2000)
             return
 
         # Calculate UID based on the number of entries (excluding header)
@@ -115,7 +115,7 @@ def create_account(self, get_firstname, get_password, get_confirmation):
         writer = csv.writer(file, delimiter=";")  # Use `;` as the delimiter
         writer.writerow([new_uid, get_firstname, get_password])  # Pass data as a list
 
-    self.display_message(f"Account created successfully! UID: {new_uid}", "green", 2000)
+    display_message(f"Account created successfully! UID: {new_uid}", "green", 2000)
 
 
 def check_password_compliance(get_password, get_confirmation):
@@ -136,6 +136,15 @@ def check_if_empty(get_firstname, get_password, get_confirmation):
         return "Please confirm your Password."
     return None  # All fields are valid
 
+def display_message(self, message, color, duration=None):
+        """
+        Displays a message on the create account window
+        """
+        if self.message_label:
+            self.message_label.destroy()
 
+        self.message_label = ctk.CTkLabel(self.create_account_window, text=message, font=('Bold Calibri', 12), text_color=color)
+        self.message_label.place(relx=0.3, rely=0.75, relwidth=0.4)
 
-
+        if duration:
+            self.master.after(duration, self.message_label.destroy)
