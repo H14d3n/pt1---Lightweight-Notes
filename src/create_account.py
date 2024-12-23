@@ -73,6 +73,8 @@ def init_creation(self):
 
 
 
+import random
+
 def create_account(self, get_firstname, get_password, get_confirmation):
     """
     Validates inputs and creates a new account if no duplicate exists.
@@ -83,15 +85,15 @@ def create_account(self, get_firstname, get_password, get_confirmation):
 
     if empty_field_message:
         display_message(self, empty_field_message, "red", 2000)
-        return # Stop account creation if fields are empty
+        return  # Stop account creation if fields are empty
     
 
     if not check_password_compliance(get_password, get_confirmation):
-        display_message(self,"Passwords do not match or are not compliant.", "red", 2000)
+        display_message(self, "Passwords do not match or are not compliant.", "red", 2000)
         return
 
     try:
-        # Open the CSV file in read mode to check for duplicates and count rows
+        # Open the CSV file in read mode to check for duplicates
         existing_users = []
         with open(csv_file_path, mode='r', newline='') as file:
             reader = csv.reader(file, delimiter=";")  # Ensure delimiter matches write operation
@@ -99,23 +101,33 @@ def create_account(self, get_firstname, get_password, get_confirmation):
                 existing_users.append(row)
 
         # Check if the file has a header and extract content accordingly
-        if existing_users and get_firstname in [row[1] for row in existing_users[1:]]:
+        if existing_users and get_firstname in [row[1] for row in existing_users[1:] if len(row) > 1]:
             display_message(self, "An account with this name already exists.", "red", 2000)
             return
 
-        # Calculate UID based on the number of entries (excluding header)
-        new_uid = len(existing_users)  # Header is excluded automatically since it isn't a user entry
-
     except FileNotFoundError:
-        # If the file doesn't exist, start with UID 1
-        new_uid = 1
+        # If the file doesn't exist, start fresh
+        existing_users = []
+
+    # Generate a unique random UID
+    existing_uids = set()
+    for row in existing_users[1:]:  # Skip the header row
+        if len(row) > 0:  # Ensure the row is not empty
+            try:
+                existing_uids.add(int(row[0]))  # Attempt to convert UID to integer
+            except ValueError:
+                pass  # Skip rows with invalid or non-numeric UIDs
+
+    new_uid = random.randint(100000, 999999)  # Generate a random 6-digit UID
+    while new_uid in existing_uids:  # Ensure the UID is unique
+        new_uid = random.randint(100000, 999999)
 
     # Write the new account information to the CSV
     with open(csv_file_path, mode='a', newline='') as file:
         writer = csv.writer(file, delimiter=";")  # Use `;` as the delimiter
         writer.writerow([new_uid, get_firstname, get_password])  # Pass data as a list
 
-    display_message(f"Account created successfully! UID: {new_uid}", "green", 2000)
+    display_message(self, f"Account created successfully! UID: {new_uid}", "green", 2000)
 
 
 def check_password_compliance(get_password, get_confirmation):
@@ -140,9 +152,6 @@ def display_message(self, message, color, duration=None):
         """
         Displays a message on the create account window
         """
-        if self.message_label:
-            self.message_label.destroy()
-
         self.message_label = ctk.CTkLabel(self.create_account_window, text=message, font=('Bold Calibri', 12), text_color=color)
         self.message_label.place(relx=0.3, rely=0.75, relwidth=0.4)
 

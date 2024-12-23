@@ -16,7 +16,6 @@ from create_account import *
 
 """
 ToDo:
- ! Account creator
  ! En- and Decryption of Files / User-CSV.
  * Implement"Change Font" functionality
  * Implement "Export" functionalities
