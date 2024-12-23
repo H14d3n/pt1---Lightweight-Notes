@@ -90,7 +90,9 @@ Welcome to **pt1 - Lightweight Notes**, an elegant way to manage your notes! Thi
          ├── 🖼️ pt1Logo_smoothed.png
          ├── 🖼️ pt1Logo.png
          ├── 🖼️ SettingsBlack.png
-         └── 🖼️ SettingsWhite.png
+         ├── 🖼️ SettingsWhite.png
+         ├── 🖼️ signup_background.png
+         └── 🖼️ user.png
 ```
 
 ---
