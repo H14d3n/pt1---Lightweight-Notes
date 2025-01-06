@@ -21,6 +21,7 @@ ToDo:
  * Implement "Export" functionalities
  * Implement "Theme change" functionality
  ? Fix bad window path name bug (tkinter.TclError)
+ ? Fix window scaling bug when logging out from dashboard
 """
 
 # Global configurations

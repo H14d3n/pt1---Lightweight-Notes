@@ -42,22 +42,22 @@ def init_creation(self):
 
         # Input fields and labels
         firstname_label = ctk.CTkLabel(container, text="Surname:", fg_color="transparent")
-        firstname_label.grid(row=1, column=1, padx=10, pady=(5, 0), sticky="w")  # Slightly reduced top padding
+        firstname_label.grid(row=1, column=1, padx=10, pady=(5, 0), sticky="w")  
 
         firstname_entry = ctk.CTkEntry(container, placeholder_text="Enter your Surname...")
-        firstname_entry.grid(row=2, column=1, padx=10, pady=(0, 5), sticky="ew")  # Reduced bottom padding
+        firstname_entry.grid(row=2, column=1, padx=10, pady=(0, 5), sticky="ew")  
 
         password_label = ctk.CTkLabel(container, text="Password:", fg_color="transparent")
-        password_label.grid(row=3, column=1, padx=10, pady=(5, 0), sticky="w")  # Slightly reduced top padding
+        password_label.grid(row=3, column=1, padx=10, pady=(5, 0), sticky="w")  
 
         password_entry = ctk.CTkEntry(container, placeholder_text="Enter your Password...", show="*")
-        password_entry.grid(row=4, column=1, padx=10, pady=(0, 5), sticky="ew")  # Reduced bottom padding
+        password_entry.grid(row=4, column=1, padx=10, pady=(0, 5), sticky="ew")  
 
         confirm_password_label = ctk.CTkLabel(container, text="Confirm Password:", fg_color="transparent")
-        confirm_password_label.grid(row=5, column=1, padx=10, pady=(2, 0), sticky="w")  # Reduced top padding
+        confirm_password_label.grid(row=5, column=1, padx=10, pady=(2, 0), sticky="w")  
 
         confirm_password_entry = ctk.CTkEntry(container, placeholder_text="Enter your Password... again", show="*")
-        confirm_password_entry.grid(row=6, column=1, padx=10, pady=(0, 5), sticky="ew")  # Reduced bottom padding
+        confirm_password_entry.grid(row=6, column=1, padx=10, pady=(0, 5), sticky="ew")  
 
         # Create button
         create_button = ctk.CTkButton(container, text="Create", command=lambda: create_account(
@@ -150,7 +150,10 @@ def check_if_empty(get_firstname, get_password, get_confirmation):
 
 def display_message(self, message, color, duration=None):
         """
-        Displays a message on the create account window
+        Override function from init.py - display_message.
+        Displays a message on the create account window. 
+        Why not use the function from init.py? Because the message will be displayed there,
+        which is very hard to see, especially if create account window is initialised toplevel.
         """
         self.message_label = ctk.CTkLabel(self.create_account_window, text=message, font=('Bold Calibri', 12), text_color=color)
         self.message_label.place(relx=0.3, rely=0.75, relwidth=0.4)
