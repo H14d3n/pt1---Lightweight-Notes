@@ -11,7 +11,7 @@ import base64
 # Encryption Configuration
 SALT_SIZE = 16  # bytes
 KEY_SIZE = 32  # bytes
-ITERATIONS = 100000
+ITERATIONS = 1000000 # increase from 100000 to 1 mil to further slow down brute-force attempts
 
 def generate_key(password, salt):
     """Derive a cryptographic key from the password and salt."""
