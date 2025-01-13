@@ -16,7 +16,7 @@ from create_account import *
 
 """
 ToDo:
- ! En- and Decryption of Files / User-CSV.
+ ! En- and Decryption of pt1-Files / User-CSV.
  * Implement"Change Font" functionality
  * Implement "Export" functionalities
  * Implement "Theme change" functionality
@@ -53,6 +53,8 @@ class LightweightNotesApp:
         """
         Initializes and displays the login screen.
         """
+        self.master.minsize(350,375)
+        self.master.maxsize(9999,9999)
         self.clear_window()
 
         title = ctk.CTkLabel(self.master, text="Login", font=('Bold Calibri', 25))
@@ -370,18 +372,22 @@ class LightweightNotesApp:
 
     def logout(self):
         """
-        Logs out the user, resets the application window to the login screen size, 
-        and reinitializes the login screen.
+        Logs out the user, resets the application window to the original size 
+        for the login screen, and reinitializes the login interface.
         """
-        print(f"logged out User: {self.uid}")
+        print(f"Logged out User: {self.uid}")
         self.uid = None  # Clear the user ID
 
-        # Reset window size to match the login screen
-        self.master.resizable(True, True)
+        # Fenstergröße und Verhalten zurücksetzen
+        self.master.geometry('350x375')  # Ursprüngliche Größe des Login-Screens
+        self.master.resizable(False, False)  # Resizing deaktivieren
+        self.master.minsize(350,375)
+        self.master.maxsize(350,375)
 
-        # Reinitialize the login screen
+        # Alle Widgets entfernen und Login-Bildschirm anzeigen
+        self.clear_window()
         self.init_login_screen()
-   
+
 
 # Initialize the application
 if __name__ == "__main__":
