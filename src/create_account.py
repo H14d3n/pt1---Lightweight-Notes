@@ -14,6 +14,7 @@ def init_creation(self):
         self.create_account_window = ctk.CTkToplevel(self.master)
         self.create_account_window.title("pt1 Lightweight Notes - Create Account")
         self.create_account_window.geometry("900x600")
+        self.create_account_window.iconbitmap(icon_path)
         self.create_account_window.resizable(False, False)
 
         # Background image

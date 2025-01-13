@@ -21,7 +21,6 @@ ToDo:
  * Implement "Export" functionalities
  * Implement "Theme change" functionality
  ? Fix bad window path name bug (tkinter.TclError)
- ? Fix window scaling bug when logging out from dashboard
 """
 
 # Global configurations
@@ -32,6 +31,8 @@ ctk.deactivate_automatic_dpi_awareness()
 runpath = os.getcwd()
 csv_file_path = get_csv_path() # Function is in csv_manager.py
 font_path = f'{runpath}\\src\\fonts\\Quicksand-Light.ttf'
+icon_path = f'{runpath}\\src\\img\\pt1Logo_blue_smoothed.ico'
+abouticon_path = f'{runpath}\\src\\img\\symbol_questionmark.ico'
 
 
 class LightweightNotesApp:
@@ -43,6 +44,7 @@ class LightweightNotesApp:
         self.master.title("pt1 - Lightweight Notes")
         self.master.geometry('350x375')
         self.master.resizable(False, False)
+        self.master.iconbitmap(icon_path)
         self.uid = None
         self.settings_window = None
         self.about_window = None
@@ -309,6 +311,7 @@ class LightweightNotesApp:
             self.settings_window = ctk.CTkToplevel(self.master)
             self.settings_window.title("pt1 Lightweight Notes - Settings")
             self.settings_window.geometry("400x200")
+            self.settings_window.iconbitmap(icon_path)
             self.settings_window.resizable(False, False)
             self.settings_window.after(100, self.settings_window.lift)
 
@@ -347,6 +350,7 @@ class LightweightNotesApp:
             self.about_window = ctk.CTkToplevel(self.master)
             self.about_window.title("pt1 Lightweight Notes - About")
             self.about_window.geometry("210x105")
+            self.about_window.iconbitmap(icon_path)
             self.about_window.resizable(False, False)
 
             # Add content to the About window
@@ -378,13 +382,13 @@ class LightweightNotesApp:
         print(f"Logged out User: {self.uid}")
         self.uid = None  # Clear the user ID
 
-        # Fenstergröße und Verhalten zurücksetzen
-        self.master.geometry('350x375')  # Ursprüngliche Größe des Login-Screens
-        self.master.resizable(False, False)  # Resizing deaktivieren
+        # Reset Window
+        self.master.geometry('350x375')  # Set to initial size of login screen
+        self.master.resizable(False, False)  # Deactivate resizing
         self.master.minsize(350,375)
         self.master.maxsize(350,375)
 
-        # Alle Widgets entfernen und Login-Bildschirm anzeigen
+        # Destroy all widgets and initialise login screen
         self.clear_window()
         self.init_login_screen()
 
