@@ -32,13 +32,13 @@ Welcome to **pt1 - Lightweight Notes**, an elegant way to manage your notes! Thi
 ## 🖼️ Screenshots
 
 ### Login Screen
-![Login Screen](https://via.placeholder.com/800x400?text=Login+Screen)
+![LoginScreen](https://github.com/user-attachments/assets/0eec9bd4-94f9-444c-a60e-3dda261512f5)
 
 ### Dashboard
-![Dashboard](https://via.placeholder.com/800x400?text=Dashboard)
+![Dashboard](https://github.com/user-attachments/assets/5d20b79d-f049-46b1-937c-dcb1c58c17cc)
 
 ### Note Editor
-![Note Editor](https://via.placeholder.com/800x400?text=Note+Editor)
+![Editor](https://github.com/user-attachments/assets/84e04ca2-bcd4-4281-b706-8a74f1550cd7)
 
 ---
 
