@@ -34,6 +34,9 @@ Welcome to **pt1 - Lightweight Notes**, an elegant way to manage your notes! Thi
 ### Login Screen
 ![LoginScreen](https://github.com/user-attachments/assets/0eec9bd4-94f9-444c-a60e-3dda261512f5)
 
+### Create Account
+![CreateAccount](https://github.com/user-attachments/assets/41d7deb4-318a-4b91-a2c9-d99cd5827e6a)
+
 ### Dashboard
 ![Dashboard](https://github.com/user-attachments/assets/5d20b79d-f049-46b1-937c-dcb1c58c17cc)
 
