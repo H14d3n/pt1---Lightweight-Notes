@@ -80,7 +80,7 @@ def create_account(self, get_firstname, get_password, get_confirmation):
     """
     Validates inputs and creates a new account if no duplicate exists.
     """
-
+    
     # Check if any field is empty
     empty_field_message = check_if_empty(get_firstname, get_password, get_confirmation)
 
