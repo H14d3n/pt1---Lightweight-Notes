@@ -124,14 +124,18 @@ def on_window_close(self, file_path, text_area):
     """
     print("Window close event triggered")
     
-    # Encrypt the text content before closing
-    encrypt_text(self)  # Encrypt the text in the text area
+    try:
+        # Encrypt the text content before closing
+        encrypt_text(self)  # Encrypt the text in the text area
 
-    # Save the encrypted content to the file
-    save_document(self, file_path, text_area)
+        # Save the encrypted content to the file
+        save_document(self, file_path, text_area)
 
-    # Close the window
-    self.master.destroy()  # Close the application window
+        # Close the window
+        self.master.destroy()  # Close the application window
+    except:
+        self.master.destroy()
+
 
 def back_to_dashboard(self, file_path, text_area):
     """
