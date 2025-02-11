@@ -1,7 +1,7 @@
 from tkinter import scrolledtext
 import tkinter as tk
 import customtkinter as ctk
-from encryption import generate_key, encrypt_message  # Import the functions
+from encryption import generate_key, encrypt_message
 
 def encrypt_text(self):
     """
@@ -28,7 +28,6 @@ def encrypt_text(self):
     self.current_text_area.delete("1.0", tk.END)
     self.current_text_area.insert(tk.END, encrypted_text)
 
-
 def decrypt_text(self, content):
     """
     Decrypts the given content using the same key and seed, but leaves the first two lines unencrypted.
@@ -49,8 +48,6 @@ def decrypt_text(self, content):
     decrypted_message = "\n".join(lines[:2]) + "\n" + decrypted_text
     
     return decrypted_message
-
-
 
 def editing_mode(self, file_path):
     """
@@ -103,7 +100,7 @@ def editing_mode(self, file_path):
 
     # Bind CTRL+S to the save function
     text_area.bind("<Control-s>", lambda event: save_document(self, file_path, text_area))
-    text_area.bind("<Control-q>", lambda event: self.init_application())
+    text_area.bind("<Control-q>", lambda event: back_to_dashboard(self, file_path, text_area))  # Corrected this binding
 
     # Bind CTRL+F to the find function
     text_area.bind("<Control-f>", lambda event: open_search_bar(text_area))
@@ -113,8 +110,23 @@ def editing_mode(self, file_path):
     save_button.pack(side=tk.LEFT, padx=10, pady=10)
 
     # Return to Dashboard button
-    back_button = ctk.CTkButton(self.master, text="Back to Dashboard (CTRL + Q)", command=self.init_application)
+    back_button = ctk.CTkButton(self.master, text="Back to Dashboard (CTRL + Q)", command=lambda: back_to_dashboard(self, file_path, text_area))  # Fixed button command
     back_button.pack(side=tk.RIGHT, padx=10, pady=10)
+
+def back_to_dashboard(self, file_path, text_area):
+    """
+    Handles the action when the user clicks 'Back to Dashboard' button.
+    Encrypts the text content before navigating back to the dashboard.
+    """
+    # Encrypt the text content before going back to the dashboard
+    print("Encrypting text before navigating to the dashboard...")  # Debugging line
+    encrypt_text(self)  # Make sure this is called properly
+    
+    # Save the encrypted content to the file
+    save_document(self, file_path, text_area)
+    
+    # Now navigate to the dashboard or do whatever you need
+    self.init_application()
 
 def save_document(self, file_path, text_area):
     """
@@ -128,7 +140,6 @@ def save_document(self, file_path, text_area):
     except Exception as e:
         print(f"Error saving file: {e}")
         self.display_message("Failed to save document.", "red", duration=2000)
-
 
 def open_search_bar(text_area):
     """
@@ -166,7 +177,6 @@ def open_search_bar(text_area):
     # Bind Enter key to the search functionality
     search_window.bind("<Return>", lambda event: search_and_jump(text_area, search_entry.get()))
 
-
 def search_word(text_area, word):
     """
     Searches for all occurrences of a word in the text area and highlights them.
@@ -188,7 +198,6 @@ def search_word(text_area, word):
         text_area.tag_config("highlight", background="yellow", foreground="black")
         # Move to the next position after the current word
         start_pos = end_pos
-
 
 def search_and_jump(text_area, word):
     """
