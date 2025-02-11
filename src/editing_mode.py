@@ -3,6 +3,7 @@ import tkinter as tk
 import customtkinter as ctk
 from encryption import generate_key, encrypt_message
 
+
 def encrypt_text(self):
     """
     Encrypts the text in the text area using a fixed seed, but leaves the first two lines unencrypted.
@@ -112,6 +113,25 @@ def editing_mode(self, file_path):
     # Return to Dashboard button
     back_button = ctk.CTkButton(self.master, text="Back to Dashboard (CTRL + Q)", command=lambda: back_to_dashboard(self, file_path, text_area))  # Fixed button command
     back_button.pack(side=tk.RIGHT, padx=10, pady=10)
+
+    # Bind the window close (X) or Alt+F4 event to save and encrypt before closing.
+    self.master.protocol("WM_DELETE_WINDOW", lambda: on_window_close(self, file_path, text_area))
+
+def on_window_close(self, file_path, text_area):
+    """
+    This method is triggered when the window is closed (either via Alt+F4 or the close button).
+    It ensures the content is encrypted and saved before closing the window.
+    """
+    print("Window close event triggered")
+    
+    # Encrypt the text content before closing
+    encrypt_text(self)  # Encrypt the text in the text area
+
+    # Save the encrypted content to the file
+    save_document(self, file_path, text_area)
+
+    # Close the window
+    self.master.destroy()  # Close the application window
 
 def back_to_dashboard(self, file_path, text_area):
     """
