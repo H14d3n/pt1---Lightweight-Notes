@@ -1,11 +1,60 @@
 from tkinter import scrolledtext
 import tkinter as tk
 import customtkinter as ctk
+from encryption import generate_key, encrypt_message  # Import the functions
+
+def encrypt_text(self):
+    """
+    Encrypts the text in the text area using a fixed seed, but leaves the first two lines unencrypted.
+    """
+    plain_text = self.current_text_area.get("1.0", tk.END)
+    
+    # Split the content into lines
+    lines = plain_text.splitlines()
+    
+    # Keep the first two lines unchanged
+    lines_to_encrypt = lines[2:]  # Encrypt everything after the first two lines
+    content_to_encrypt = "\n".join(lines_to_encrypt)
+    
+    # Encryption
+    seed = 5901  # You can choose any seed you prefer
+    chars, key = generate_key(seed)  # Generate the key using the seed
+    cipher_text = encrypt_message(content_to_encrypt, chars, key)  # Encrypt the text
+    
+    # Combine the unchanged first two lines with the encrypted content
+    encrypted_text = "\n".join(lines[:2]) + "\n" + cipher_text
+
+    # Replace the text in the text area with the encrypted message
+    self.current_text_area.delete("1.0", tk.END)
+    self.current_text_area.insert(tk.END, encrypted_text)
+
+
+def decrypt_text(self, content):
+    """
+    Decrypts the given content using the same key and seed, but leaves the first two lines unencrypted.
+    """
+    # Split the content into lines
+    lines = content.splitlines()
+    
+    # Keep the first two lines unchanged
+    lines_to_decrypt = lines[2:]  # Decrypt everything after the first two lines
+    content_to_decrypt = "\n".join(lines_to_decrypt)
+    
+    # Decrypting is simply encrypting again with the same key
+    seed = 5901  
+    chars, key = generate_key(seed)  
+    decrypted_text = encrypt_message(content_to_decrypt, key, chars)  
+
+    # Combine the unchanged first two lines with the decrypted content
+    decrypted_message = "\n".join(lines[:2]) + "\n" + decrypted_text
+    
+    return decrypted_message
+
 
 
 def editing_mode(self, file_path):
     """
-    Manages the editing process of an opened document.
+    Manages the editing process of an opened document, decrypting the file content upon opening.
     """
     self.init_menu_bar()
 
@@ -41,7 +90,9 @@ def editing_mode(self, file_path):
     try:
         with open(file_path, 'r') as file:
             content = file.read()
-            text_area.insert(tk.END, content)
+            # Decrypt the content as the file is loaded
+            decrypted_content = decrypt_text(self, content)
+            text_area.insert(tk.END, decrypted_content)
     except Exception as e:
         print(f"Error reading file: {e}")
         self.display_message("Failed to load document content.", "red")
@@ -65,12 +116,11 @@ def editing_mode(self, file_path):
     back_button = ctk.CTkButton(self.master, text="Back to Dashboard (CTRL + Q)", command=self.init_application)
     back_button.pack(side=tk.RIGHT, padx=10, pady=10)
 
-
 def save_document(self, file_path, text_area):
     """
-    Saves the current content of the text area back to the specified file. 
+    Saves the current content of the text area back to the specified file.
     """
-    content = text_area.get("1.0", tk.END)  # Get all text from the text area 
+    content = text_area.get("1.0", tk.END)  # Get all text from the text area
     try:
         with open(file_path, 'w') as file:
             file.write(content)
