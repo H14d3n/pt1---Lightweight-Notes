@@ -1,3 +1,4 @@
 Pillow
 customtkinter
 CTkMenuBar
+cryptography
