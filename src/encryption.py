@@ -26,7 +26,7 @@ def encrypt_message(plain_text, chars, key):
             index = chars.index(letter)
             cipher_text += key[index]
         else:
-            cipher_text += letter  # If the character is not in the chars list, leave it unchanged
+            cipher_text += letter
 
     return cipher_text
 
@@ -41,6 +41,6 @@ def decrypt_message(encrypted_text, chars, key):
             index = key.index(letter)
             decrypted_text += chars[index]
         else:
-            decrypted_text += letter  # If the character is not in the key list, leave it unchanged
+            decrypted_text += letter
 
     return decrypted_text

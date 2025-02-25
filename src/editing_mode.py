@@ -14,13 +14,13 @@ def encrypt_text(self):
     lines = plain_text.splitlines()
     
     # Keep the first two lines unchanged
-    lines_to_encrypt = lines[2:]  # Encrypt everything after the first two lines
+    lines_to_encrypt = lines[2:] 
     content_to_encrypt = "\n".join(lines_to_encrypt)
     
     # Encryption
     seed = 5901  # You can choose any seed you prefer
     chars, key = generate_key(seed)  # Generate the key using the seed
-    cipher_text = encrypt_message(content_to_encrypt, chars, key)  # Encrypt the text
+    cipher_text = encrypt_message(content_to_encrypt, chars, key)
     
     # Combine the unchanged first two lines with the encrypted content
     encrypted_text = "\n".join(lines[:2]) + "\n" + cipher_text
@@ -37,7 +37,7 @@ def decrypt_text(self, content):
     lines = content.splitlines()
     
     # Keep the first two lines unchanged
-    lines_to_decrypt = lines[2:]  # Decrypt everything after the first two lines
+    lines_to_decrypt = lines[2:]
     content_to_decrypt = "\n".join(lines_to_decrypt)
     
     # Decrypting is simply encrypting again with the same key
@@ -101,7 +101,7 @@ def editing_mode(self, file_path):
 
     # Bind CTRL+S to the save function
     text_area.bind("<Control-s>", lambda event: save_document(self, file_path, text_area))
-    text_area.bind("<Control-q>", lambda event: back_to_dashboard(self, file_path, text_area))  # Corrected this binding
+    text_area.bind("<Control-q>", lambda event: back_to_dashboard(self, file_path, text_area))  
 
     # Bind CTRL+F to the find function
     text_area.bind("<Control-f>", lambda event: open_search_bar(text_area))
@@ -111,7 +111,7 @@ def editing_mode(self, file_path):
     save_button.pack(side=tk.LEFT, padx=10, pady=10)
 
     # Return to Dashboard button
-    back_button = ctk.CTkButton(self.master, text="Back to Dashboard (CTRL + Q)", command=lambda: back_to_dashboard(self, file_path, text_area))  # Fixed button command
+    back_button = ctk.CTkButton(self.master, text="Back to Dashboard (CTRL + Q)", command=lambda: back_to_dashboard(self, file_path, text_area))
     back_button.pack(side=tk.RIGHT, padx=10, pady=10)
 
     # Bind the window close (X) or Alt+F4 event to save and encrypt before closing.
@@ -124,14 +124,18 @@ def on_window_close(self, file_path, text_area):
     """
     print("Window close event triggered")
     
-    # Encrypt the text content before closing
-    encrypt_text(self)  # Encrypt the text in the text area
+    try:
+        # Encrypt the text content before closing
+        encrypt_text(self)
 
-    # Save the encrypted content to the file
-    save_document(self, file_path, text_area)
+        # Save the encrypted content to the file
+        save_document(self, file_path, text_area)
 
-    # Close the window
-    self.master.destroy()  # Close the application window
+        # Close the window
+        self.master.destroy()  
+    except:
+        self.master.destroy()
+
 
 def back_to_dashboard(self, file_path, text_area):
     """
@@ -139,8 +143,8 @@ def back_to_dashboard(self, file_path, text_area):
     Encrypts the text content before navigating back to the dashboard.
     """
     # Encrypt the text content before going back to the dashboard
-    print("Encrypting text before navigating to the dashboard...")  # Debugging line
-    encrypt_text(self)  # Make sure this is called properly
+    print("Encrypting text before navigating to the dashboard...")
+    encrypt_text(self)  
     
     # Save the encrypted content to the file
     save_document(self, file_path, text_area)
@@ -152,7 +156,7 @@ def save_document(self, file_path, text_area):
     """
     Saves the current content of the text area back to the specified file.
     """
-    content = text_area.get("1.0", tk.END)  # Get all text from the text area
+    content = text_area.get("1.0", tk.END)
     try:
         with open(file_path, 'w') as file:
             file.write(content)
@@ -204,13 +208,13 @@ def search_word(text_area, word):
     # Remove previous highlights
     text_area.tag_remove("highlight", "1.0", tk.END)
     if not word:
-        return  # Do nothing if the search word is empty
+        return 
     start_pos = "1.0"
     while True:
         # Search for the word
         start_pos = text_area.search(word, start_pos, stopindex=tk.END, nocase=True)
         if not start_pos:
-            break  # Exit loop if word is not found
+            break  
         # Calculate the end position of the found word
         end_pos = f"{start_pos}+{len(word)}c"
         # Highlight the found word
@@ -227,7 +231,7 @@ def search_and_jump(text_area, word):
     text_area.tag_remove("highlight", "1.0", tk.END)
 
     if not word:
-        return  # Do nothing if the search word is empty
+        return
 
     # Search for the word
     start_pos = text_area.search(word, "1.0", stopindex=tk.END, nocase=True)

@@ -9,7 +9,7 @@ Welcome to **pt1 - Lightweight Notes**, an elegant way to manage your notes! Thi
 ### 🔒 User Authentication
 - **Login System**: Secure your notes with username and password.
 - **Create Account**: Easily create an account with basic user details.
-- Password storage in encrypted CSV file
+- **Encrypted Files**: Files are encrypted so no other editor can read them.
 
 ### 📝 Document Management
 - **Create, Open, Edit, and Save Notes**: Seamlessly manage your documents.
