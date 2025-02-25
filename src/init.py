@@ -296,7 +296,7 @@ class LightweightNotesApp:
             if self.uid in first_line:
                 print(f"Editing file: {file_path}")
                 self.clear_window()
-                editing_mode(self, file_path)
+                editing_mode(self, file_path, self.uid)
             else:
                 self.display_message("You don't have permission to edit this file.", "red", duration=2000)
 

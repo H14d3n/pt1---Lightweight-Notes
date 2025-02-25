@@ -4,7 +4,7 @@ import customtkinter as ctk
 from encryption import generate_key, encrypt_message
 
 
-def encrypt_text(self):
+def encrypt_text(self, uid):
     """
     Encrypts the text in the text area using a fixed seed, but leaves the first two lines unencrypted.
     """
@@ -18,7 +18,7 @@ def encrypt_text(self):
     content_to_encrypt = "\n".join(lines_to_encrypt)
     
     # Encryption
-    seed = 5901  # You can choose any seed you prefer
+    seed = 5901 * uid  # You can choose any seed you prefer
     chars, key = generate_key(seed)  # Generate the key using the seed
     cipher_text = encrypt_message(content_to_encrypt, chars, key)
     
@@ -29,7 +29,7 @@ def encrypt_text(self):
     self.current_text_area.delete("1.0", tk.END)
     self.current_text_area.insert(tk.END, encrypted_text)
 
-def decrypt_text(self, content):
+def decrypt_text(self, content, uid):
     """
     Decrypts the given content using the same key and seed, but leaves the first two lines unencrypted.
     """
@@ -41,7 +41,7 @@ def decrypt_text(self, content):
     content_to_decrypt = "\n".join(lines_to_decrypt)
     
     # Decrypting is simply encrypting again with the same key
-    seed = 5901  
+    seed = 5901 * uid
     chars, key = generate_key(seed)  
     decrypted_text = encrypt_message(content_to_decrypt, key, chars)  
 
@@ -50,7 +50,7 @@ def decrypt_text(self, content):
     
     return decrypted_message
 
-def editing_mode(self, file_path):
+def editing_mode(self, file_path, uid):
     """
     Manages the editing process of an opened document, decrypting the file content upon opening.
     """
@@ -83,13 +83,14 @@ def editing_mode(self, file_path):
     # Store the current file path and text area for Save functionality
     self.current_file_path = file_path
     self.current_text_area = text_area
+    self.uid = uid
 
     # Load and display the content of the file in the text area
     try:
         with open(file_path, 'r') as file:
             content = file.read()
             # Decrypt the content as the file is loaded
-            decrypted_content = decrypt_text(self, content)
+            decrypted_content = decrypt_text(self, content, uid)
             text_area.insert(tk.END, decrypted_content)
     except Exception as e:
         print(f"Error reading file: {e}")
@@ -101,7 +102,7 @@ def editing_mode(self, file_path):
 
     # Bind CTRL+S to the save function
     text_area.bind("<Control-s>", lambda event: save_document(self, file_path, text_area))
-    text_area.bind("<Control-q>", lambda event: back_to_dashboard(self, file_path, text_area))  
+    text_area.bind("<Control-q>", lambda event: back_to_dashboard(self, file_path, text_area, uid))  
 
     # Bind CTRL+F to the find function
     text_area.bind("<Control-f>", lambda event: open_search_bar(text_area))
@@ -111,13 +112,13 @@ def editing_mode(self, file_path):
     save_button.pack(side=tk.LEFT, padx=10, pady=10)
 
     # Return to Dashboard button
-    back_button = ctk.CTkButton(self.master, text="Back to Dashboard (CTRL + Q)", command=lambda: back_to_dashboard(self, file_path, text_area))
+    back_button = ctk.CTkButton(self.master, text="Back to Dashboard (CTRL + Q)", command=lambda: back_to_dashboard(self, file_path, text_area, uid))
     back_button.pack(side=tk.RIGHT, padx=10, pady=10)
 
     # Bind the window close (X) or Alt+F4 event to save and encrypt before closing.
-    self.master.protocol("WM_DELETE_WINDOW", lambda: on_window_close(self, file_path, text_area))
+    self.master.protocol("WM_DELETE_WINDOW", lambda: on_window_close(self, file_path, text_area, uid))
 
-def on_window_close(self, file_path, text_area):
+def on_window_close(self, file_path, text_area, uid):
     """
     This method is triggered when the window is closed (either via Alt+F4 or the close button).
     It ensures the content is encrypted and saved before closing the window.
@@ -126,7 +127,7 @@ def on_window_close(self, file_path, text_area):
     
     try:
         # Encrypt the text content before closing
-        encrypt_text(self)
+        encrypt_text(self, uid)
 
         # Save the encrypted content to the file
         save_document(self, file_path, text_area)
@@ -137,14 +138,14 @@ def on_window_close(self, file_path, text_area):
         self.master.destroy()
 
 
-def back_to_dashboard(self, file_path, text_area):
+def back_to_dashboard(self, file_path, text_area, uid):
     """
     Handles the action when the user clicks 'Back to Dashboard' button.
     Encrypts the text content before navigating back to the dashboard.
     """
     # Encrypt the text content before going back to the dashboard
     print("Encrypting text before navigating to the dashboard...")
-    encrypt_text(self)  
+    encrypt_text(self, uid)  
     
     # Save the encrypted content to the file
     save_document(self, file_path, text_area)
