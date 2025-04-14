@@ -161,3 +161,5 @@ cython_debug/
 
 package.json
 package-lock.json
+
+!src/tempCodeRunnerFile.py
