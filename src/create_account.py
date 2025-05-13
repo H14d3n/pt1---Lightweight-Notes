@@ -2,9 +2,17 @@ import tkinter as tk
 import customtkinter as ctk
 from PIL import Image, ImageTk
 import csv  # Import CSV module
+import os
 
 from init import *
 from csv_manager import csv_file_path
+
+def resource(relative_path):
+    base_path = getattr(
+        sys,
+        '_MEIPASS',
+        os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
 
 def init_creation(self):
     """
@@ -14,11 +22,14 @@ def init_creation(self):
         self.create_account_window = ctk.CTkToplevel(self.master)
         self.create_account_window.title("pt1 Lightweight Notes - Create Account")
         self.create_account_window.geometry("900x600")
-        self.create_account_window.iconbitmap(icon_path)
+        if os.name == "nt":  # if Windows
+            self.create_account_window.iconbitmap(icon_path)
+        else:  # if Linux or macOS
+            self.create_account_window.iconphoto(True, PhotoImage(file=png_icon_path))
         self.create_account_window.resizable(False, False)
 
         # Background image
-        background_image = ctk.CTkImage(Image.open(f"{runpath}\\src\\img\\signup_background.jpg"), size=(900, 600))
+        background_image = ctk.CTkImage(Image.open(resource("img/signup_background.jpg")), size=(900, 600))
         background_label = ctk.CTkLabel(self.create_account_window, image=background_image, text="")
         background_label.place(relwidth=1, relheight=1)
 
@@ -36,7 +47,7 @@ def init_creation(self):
         container.grid_columnconfigure(1, weight=3)
 
         # Profile image
-        image_path = f"{runpath}\\src\\img\\user.png"
+        image_path = resource("img/user.png")
         profile_image = ctk.CTkImage(Image.open(image_path), size=(150, 150))
         image_label = ctk.CTkLabel(container, image=profile_image, text="")
         image_label.grid(row=0, column=0, rowspan=6, padx=20, pady=20, sticky="n")
