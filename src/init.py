@@ -47,7 +47,8 @@ class LightweightNotesApp:
         self.uid = None
         self.settings_window = None
         self.about_window = None
-        self.create_account_window = None 
+        self.create_account_window = None
+        self.editing = False 
         self.init_login_screen()
 
     def init_login_screen(self):
@@ -302,7 +303,7 @@ class LightweightNotesApp:
 
 
     def open_settings(self):
-        """
+        """ 
         Opens the settings window where users can adjust application settings, 
         such as changing themes. Prevents opening multiple instances of the settings window.
         """
@@ -378,18 +379,21 @@ class LightweightNotesApp:
         Logs out the user, resets the application window to the original size 
         for the login screen, and reinitializes the login interface.
         """
-        print(f"Logged out User: {self.uid}")
-        self.uid = None  # Clear the user ID
+        if not self.editing:
+            print(f"Logged out User: {self.uid}")
+            self.uid = None  # Clear the user ID
 
-        # Reset Window
-        self.master.geometry('350x375')  # Set to initial size of login screen
-        self.master.resizable(False, False)  # Deactivate resizing
-        self.master.minsize(350,375)
-        self.master.maxsize(350,375)
+            # Reset Window
+            self.master.geometry('350x375')  # Set to initial size of login screen
+            self.master.resizable(False, False)  # Deactivate resizing
+            self.master.minsize(350,375)
+            self.master.maxsize(350,375)
 
-        # Destroy all widgets and initialise login screen
-        self.clear_window()
-        self.init_login_screen()
+            # Destroy all widgets and initialise login screen
+            self.clear_window()
+            self.init_login_screen()
+        else:
+            self.display_message("Can't logout, user is editing a document.", "red", duration=2000)    
 
 
 # Initialize the application

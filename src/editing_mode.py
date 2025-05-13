@@ -55,6 +55,7 @@ def editing_mode(self, file_path, uid):
     Manages the editing process of an opened document, decrypting the file content upon opening.
     """
     self.init_menu_bar()
+    self.editing = True
 
     # Set up a title and text area for editing
     title_label = ctk.CTkLabel(self.master, text="Editing Document", font=('Bold Calibri', 20))
@@ -149,6 +150,9 @@ def back_to_dashboard(self, file_path, text_area, uid):
     
     # Save the encrypted content to the file
     save_document(self, file_path, text_area)
+
+    # Unset the editing mode
+    self.editing = False
     
     # Now navigate to the dashboard or do whatever you need
     self.init_application()
