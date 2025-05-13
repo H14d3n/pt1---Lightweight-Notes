@@ -323,9 +323,7 @@ class LightweightNotesApp:
             self.settings_window.title("pt1 Lightweight Notes - Settings")
             self.settings_window.geometry("400x200")
             if os.name == "nt":  # if Windows
-                self.about_window.iconbitmap(icon_path)
-            else:
-                self.master.iconphoto(True, PhotoImage(file=png_icon_path))
+                self.settings_window.iconbitmap(icon_path)
             self.settings_window.resizable(False, False)
             self.settings_window.after(100, self.settings_window.lift)
 
@@ -366,8 +364,6 @@ class LightweightNotesApp:
             self.about_window.geometry("210x105")
             if os.name == "nt":  # if Windows
                 self.about_window.iconbitmap(icon_path)
-            else:
-                self.master.iconphoto(True, PhotoImage(file=png_icon_path))
             self.about_window.resizable(False, False)
 
             # Add content to the About window
