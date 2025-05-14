@@ -18,12 +18,11 @@ from create_account import *
 ToDo:
  * Implement"Change Font" functionality
  * Implement "Export" functionalities
- * Implement "Theme change" functionality
  ? Fix bad window path name bug (tkinter.TclError)
 """
 
 # Global configurations
-ctk.set_appearance_mode("light")  # fixed bug (in ctk only availible "system", "light" and "dark"!)
+ctk.set_appearance_mode("dark") # (in ctk only availible "system", "light" and "dark")
 ctk.set_default_color_theme("dark-blue")
 ctk.deactivate_automatic_dpi_awareness()
 
@@ -35,7 +34,6 @@ def resource(relative_path):
     return os.path.join(base_path, relative_path)
 
 csv_file_path = get_csv_path() # Function is in csv_manager.py
-# Fixed path bug on Linux
 font_path = resource("fonts/Quicksand-Light.ttf")
 icon_path = resource("img/pt1Logo_blue_smoothed.ico")
 png_icon_path = resource("img/pt1Logo_blue_smoothed.png")
@@ -235,10 +233,9 @@ class LightweightNotesApp:
         action_frame.grid(row=0, column=column_index, padx=10, pady=10, sticky="nsew")
 
         # Create Icon
-        white_plus_path = resource("img/PlusWhite.png")
         black_plus_path = resource("img/PlusBlack.png")
 
-        create_image = ctk.CTkImage(light_image=Image.open(white_plus_path),
+        create_image = ctk.CTkImage(light_image=Image.open(black_plus_path),
                                            dark_image=Image.open(black_plus_path),
                                            size=(100,100))
 
@@ -246,10 +243,9 @@ class LightweightNotesApp:
         create_image_label.place(relx=0.1625, rely=0.3, anchor="center")
 
         # Open Icon
-        white_open_path = resource("img/FolderWhite.png")
         black_open_path = resource("img/FolderBlack.png")
 
-        create_image = ctk.CTkImage(light_image=Image.open(white_open_path),
+        create_image = ctk.CTkImage(light_image=Image.open(black_open_path),
                                            dark_image=Image.open(black_open_path),
                                            size=(100,100))
 
@@ -257,10 +253,9 @@ class LightweightNotesApp:
         open_image_label.place(relx=0.5, rely=0.3, anchor="center")
 
         # Settings Icon
-        white_settings_path = resource("img/SettingsWhite.png")
         black_settings_path = resource("img/SettingsBlack.png")
 
-        create_image = ctk.CTkImage(light_image=Image.open(white_settings_path),
+        create_image = ctk.CTkImage(light_image=Image.open(black_settings_path),
                                            dark_image=Image.open(black_settings_path),
                                            size=(100,100))
 
