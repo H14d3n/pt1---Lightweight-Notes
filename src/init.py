@@ -1,11 +1,11 @@
 import tkinter as tk
 import customtkinter as ctk
 import csv
-import os
+import os, sys
 import platform
 from CTkMenuBar import *
 from PIL import Image
-from tkinter import filedialog, Text
+from tkinter import filedialog, Text, PhotoImage
 import datetime
 from PIL import Image, ImageTk
 
@@ -23,15 +23,23 @@ ToDo:
 """
 
 # Global configurations
-ctk.set_appearance_mode("white")
+ctk.set_appearance_mode("light")  # fixed bug (in ctk only availible "system", "light" and "dark"!)
 ctk.set_default_color_theme("dark-blue")
 ctk.deactivate_automatic_dpi_awareness()
 
-runpath = os.getcwd()
+def resource(relative_path):
+    base_path = getattr(
+        sys,
+        '_MEIPASS',
+        os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+
 csv_file_path = get_csv_path() # Function is in csv_manager.py
-font_path = f'{runpath}\\src\\fonts\\Quicksand-Light.ttf'
-icon_path = f'{runpath}\\src\\img\\pt1Logo_blue_smoothed.ico'
-abouticon_path = f'{runpath}\\src\\img\\symbol_questionmark.ico'
+# Fixed path bug on Linux
+font_path = resource("fonts/Quicksand-Light.ttf")
+icon_path = resource("img/pt1Logo_blue_smoothed.ico")
+png_icon_path = resource("img/pt1Logo_blue_smoothed.png")
+abouticon_path = resource("img/symbol_questionmark.ico")
 
 
 class LightweightNotesApp:
@@ -43,7 +51,10 @@ class LightweightNotesApp:
         self.master.title("pt1 - Lightweight Notes")
         self.master.geometry('350x375')
         self.master.resizable(False, False)
-        self.master.iconbitmap(icon_path)
+        if os.name == "nt":  # if Windows
+            self.master.iconbitmap(icon_path)
+        else:  # if macOS or Linux
+            self.master.iconphoto(True, PhotoImage(file=png_icon_path))
         self.uid = None
         self.settings_window = None
         self.about_window = None
@@ -224,8 +235,8 @@ class LightweightNotesApp:
         action_frame.grid(row=0, column=column_index, padx=10, pady=10, sticky="nsew")
 
         # Create Icon
-        white_plus_path = f"{runpath}/src/img/PlusWhite.png"
-        black_plus_path = f"{runpath}/src/img/PlusBlack.png"
+        white_plus_path = resource("img/PlusWhite.png")
+        black_plus_path = resource("img/PlusBlack.png")
 
         create_image = ctk.CTkImage(light_image=Image.open(white_plus_path),
                                            dark_image=Image.open(black_plus_path),
@@ -235,8 +246,8 @@ class LightweightNotesApp:
         create_image_label.place(relx=0.1625, rely=0.3, anchor="center")
 
         # Open Icon
-        white_open_path = f"{runpath}/src/img/FolderWhite.png"
-        black_open_path = f"{runpath}/src/img/FolderBlack.png"
+        white_open_path = resource("img/FolderWhite.png")
+        black_open_path = resource("img/FolderBlack.png")
 
         create_image = ctk.CTkImage(light_image=Image.open(white_open_path),
                                            dark_image=Image.open(black_open_path),
@@ -246,8 +257,8 @@ class LightweightNotesApp:
         open_image_label.place(relx=0.5, rely=0.3, anchor="center")
 
         # Settings Icon
-        white_settings_path = f"{runpath}/src/img/SettingsWhite.png"
-        black_settings_path = f"{runpath}/src/img/SettingsBlack.png"
+        white_settings_path = resource("img/SettingsWhite.png")
+        black_settings_path = resource("img/SettingsBlack.png")
 
         create_image = ctk.CTkImage(light_image=Image.open(white_settings_path),
                                            dark_image=Image.open(black_settings_path),
@@ -311,7 +322,8 @@ class LightweightNotesApp:
             self.settings_window = ctk.CTkToplevel(self.master)
             self.settings_window.title("pt1 Lightweight Notes - Settings")
             self.settings_window.geometry("400x200")
-            self.settings_window.iconbitmap(icon_path)
+            if os.name == "nt":  # if Windows
+                self.settings_window.iconbitmap(icon_path)
             self.settings_window.resizable(False, False)
             self.settings_window.after(100, self.settings_window.lift)
 
@@ -321,10 +333,10 @@ class LightweightNotesApp:
             settings_change_theme_label = ctk.CTkLabel(self.settings_window, text="Change Theme")
             settings_change_theme_label.place(relx=0.175, rely=0.05)
 
-            light_theme_button = ctk.CTkButton(self.settings_window, text="Light", command=lambda: print("Light Mode"))
+            light_theme_button = ctk.CTkButton(self.settings_window, text="Light", command=lambda: ctk.set_appearance_mode("light"))
             light_theme_button.place(relx=0.03, rely=0.2, relwidth=0.5, relheight=0.3)
 
-            dark_theme_button = ctk.CTkButton(self.settings_window, text="Dark", command=lambda: print("Dark Mode"))
+            dark_theme_button = ctk.CTkButton(self.settings_window, text="Dark", command=lambda: ctk.set_appearance_mode("dark"))
             dark_theme_button.place(relx=0.03, rely=0.55, relwidth=0.5, relheight=0.3)
 
             settings_logout_label = ctk.CTkLabel(self.settings_window, text="Logout of Account")
@@ -350,7 +362,8 @@ class LightweightNotesApp:
             self.about_window = ctk.CTkToplevel(self.master)
             self.about_window.title("pt1 Lightweight Notes - About")
             self.about_window.geometry("210x105")
-            self.about_window.iconbitmap(icon_path)
+            if os.name == "nt":  # if Windows
+                self.about_window.iconbitmap(icon_path)
             self.about_window.resizable(False, False)
 
             # Add content to the About window
