@@ -18,8 +18,6 @@ from create_account import *
 ToDo:
  * Implement"Change Font" functionality
  * Implement "Export" functionalities
- * Implement "Theme change" functionality
- ? Fix bad window path name bug (tkinter.TclError)
 """
 
 # Global configurations
