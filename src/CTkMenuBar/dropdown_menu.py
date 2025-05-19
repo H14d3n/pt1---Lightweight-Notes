@@ -308,10 +308,7 @@ class CustomDropdownMenu(customtkinter.CTkFrame):
             self.winfo_rooty() < y_root < self.winfo_rooty()+self.winfo_height()
     
     def _checkIfMouseLeft(self, event: tk.Event=None) -> None:
-        if not self.winfo_exists():
-            return
-            
-        if not self.winfo_viewable():
+        if not (self.winfo_exists() and self.winfo_viewable()):
             return
         
         try:
