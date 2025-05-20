@@ -3,7 +3,7 @@ import customtkinter as ctk
 import csv
 import os, sys
 import platform
-from CTkMenuBar import *
+from CTkMenuBar import CTkMenuBar, CustomDropdownMenu
 from PIL import Image
 from tkinter import filedialog, Text, PhotoImage
 import datetime

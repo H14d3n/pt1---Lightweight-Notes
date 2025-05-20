@@ -1,4 +1,3 @@
-from tkinter import scrolledtext
 import tkinter as tk
 import customtkinter as ctk
 from encryption import generate_key, encrypt_message
@@ -62,24 +61,14 @@ def editing_mode(self, file_path, uid):
     title_label.pack(pady=(10, 5))
 
     # Frame to hold the text area and scrollbars
-    frame = tk.Frame(self.master)
+    frame = ctk.CTkFrame(self.master)
     frame.pack(padx=10, pady=10, fill=tk.BOTH, expand=True)
 
-    # Horizontal scrollbar
-    h_scroll = tk.Scrollbar(frame, orient=tk.HORIZONTAL)
-    h_scroll.pack(side=tk.BOTTOM, fill=tk.X)
-
-    # Vertical scrollbar
-    v_scroll = tk.Scrollbar(frame, orient=tk.VERTICAL)
-    v_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+    # I REMOVED THE SCROLLBARS BECAUSE WHEN THE TEXT DOESN'T FIT, THEY APPEAR THEMSELVES.
 
     # Scrolled text widget with horizontal scrolling
-    text_area = tk.Text(frame, wrap=tk.NONE, xscrollcommand=h_scroll.set, yscrollcommand=v_scroll.set, undo=True, borderwidth=0, highlightthickness=0)
+    text_area = ctk.CTkTextbox(frame, wrap=tk.NONE, undo=True)
     text_area.pack(side=tk.LEFT, padx=2, pady=2, fill=tk.BOTH, expand=True)
-
-    # Configure scrollbars
-    h_scroll.config(command=text_area.xview)
-    v_scroll.config(command=text_area.yview)
 
     # Store the current file path and text area for Save functionality
     self.current_file_path = file_path
