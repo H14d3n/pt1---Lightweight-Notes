@@ -175,7 +175,7 @@ class LightweightNotesApp:
 
         file_menu.add_option(option="Save as", command=self.save_current_document)
         file_menu.add_option(option="Rename", command=lambda: print("Renamed"))
-        file_menu.add_option(option="Exit", command=self.master.destroy)
+        file_menu.add_option(option="Exit", command=self.handle_exit)
 
         # Edit Dropdown
         edit_menu = CustomDropdownMenu(widget=opt_edit)
@@ -347,6 +347,18 @@ class LightweightNotesApp:
         """
         self.settings_window.destroy()
         self.settings_window = None
+
+    def handle_exit(self):
+        """
+        Handles the Exit action from the menu bar.
+        If editing, ensures encryption and saving before exit.
+        """
+        if self.editing and self.current_file_path and self.current_text_area:
+            # Call the same logic as window close in editing mode
+            from editing_mode import on_window_close
+            on_window_close(self, self.current_file_path, self.current_text_area, self.uid)
+        else:
+            self.master.destroy()    
 
     def open_about(self):
         """
