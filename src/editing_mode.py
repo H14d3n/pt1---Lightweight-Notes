@@ -67,7 +67,7 @@ def editing_mode(self, file_path, uid):
     # I REMOVED THE SCROLLBARS BECAUSE WHEN THE TEXT DOESN'T FIT, THEY APPEAR THEMSELVES.
 
     # Scrolled text widget with horizontal scrolling
-    text_area = ctk.CTkTextbox(frame, wrap=tk.NONE, undo=True)
+    text_area = ctk.CTkTextbox(frame, wrap=tk.NONE, undo=True, font=self.tk_font)
     text_area.pack(side=tk.LEFT, padx=2, pady=2, fill=tk.BOTH, expand=True)
 
     # Store the current file path and text area for Save functionality

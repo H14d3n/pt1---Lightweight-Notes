@@ -16,7 +16,6 @@ from create_account import *
 
 """
 ToDo:
- * Implement"Change Font" functionality
  * Implement "Export" functionalities
 """
 
@@ -58,6 +57,7 @@ class LightweightNotesApp:
         self.create_account_window = None
         self.editing = False 
         self.init_login_screen()
+        self.tk_font = None
 
     def init_login_screen(self):
         """
@@ -179,7 +179,7 @@ class LightweightNotesApp:
 
         # Edit Dropdown
         edit_menu = CustomDropdownMenu(widget=opt_edit)
-        edit_menu.add_option(option="Change Font")
+        edit_menu.add_option(option="Change Font", command=self.change_font)
         edit_menu.add_option(option="Cut (CTRL + X)")
         edit_menu.add_option(option="Copy (CTRL + C)")
         edit_menu.add_option(option="Paste (CTRL + V)")
@@ -191,6 +191,20 @@ class LightweightNotesApp:
         # About Dropdown
         about_menu = CustomDropdownMenu(widget=opt_about)
         about_menu.add_option(option="About pt1 - Lightweight Notes", command=self.open_about)
+
+    def change_font(self):
+        def listbox_callback(event):
+            selected_font = fonts_listbox.get(fonts_listbox.curselection())
+            self.tk_font = ctk.CTkFont(family=selected_font, size=None)
+
+        font_dialog = ctk.CTkToplevel(self.master)
+
+        fonts = list(tk.font.families())
+        fonts_listbox = tk.Listbox(font_dialog)
+        fonts_listbox.pack(padx=10, pady=10)
+        for f in fonts:
+            fonts_listbox.insert(ctk.END, f)
+        fonts_listbox.bind("<<ListboxSelect>>", listbox_callback)
 
     def save_current_document(self):
         """
