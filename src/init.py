@@ -57,7 +57,7 @@ class LightweightNotesApp:
         self.create_account_window = None
         self.editing = False 
         self.init_login_screen()
-        self.tk_font = None
+        self.tk_font = ctk.CTkFont(family="Arial Baltic", size=12)
 
     def init_login_screen(self):
         """
