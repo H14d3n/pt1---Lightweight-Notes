@@ -117,7 +117,7 @@ class LightweightNotesApp:
 
     def display_message(self, message, color, duration=None):
         """
-        Displays a message on the login screen.
+        Displays a message on its master window.
         """
         if self.message_label:
             self.message_label.destroy()
@@ -174,7 +174,7 @@ class LightweightNotesApp:
         export_sub_menu.add_option(option=".docx", command=lambda: print("Exported as docx"))
 
         file_menu.add_option(option="Save as", command=self.save_current_document)
-        file_menu.add_option(option="Rename", command=lambda: print("Renamed"))
+        file_menu.add_option(option="Rename", command=self.rename_document)
         file_menu.add_option(option="Exit", command=self.handle_exit)
 
         # Edit Dropdown
@@ -184,6 +184,13 @@ class LightweightNotesApp:
         edit_menu.add_option(option="Copy (CTRL + C)")
         edit_menu.add_option(option="Paste (CTRL + V)")
 
+        edit_menu.add_separator()
+
+        edit_menu.add_option(option="Undo (CTRL + Z)")
+        edit_menu.add_option(option="Redo (CTRL + Y)")
+        edit_menu.add_option(option="Select All (CTRL + A)")
+        edit_menu.add_option(option="Search (CTRL + F)")
+        
         # Settings Dropdown
         settings_menu = CustomDropdownMenu(widget=opt_settings)
         settings_menu.add_option(option="Settings", command=self.open_settings)
@@ -319,6 +326,47 @@ class LightweightNotesApp:
                 editing_mode(self, file_path, self.uid)
             else:
                 self.display_message("You don't have permission to edit this file.", "red", duration=2000)
+
+    def rename_document(self):
+        """
+        Renames the currently open document by allowing the user to select a new name 
+        through a file dialog.
+        """
+        if self.current_file_path:
+            def rename_action():
+                new_name = entry.get().strip()
+                if new_name:
+                    dir_path = os.path.dirname(self.current_file_path)
+                    new_file_path = os.path.join(dir_path, new_name if new_name.endswith(".pt1") else new_name + ".pt1")
+                    if not os.path.exists(new_file_path):
+                        os.rename(self.current_file_path, new_file_path)
+                        self.current_file_path = new_file_path
+                        self.display_message("Document renamed successfully.", "green", duration=2000)
+                        print(f"Renamed file to: {self.current_file_path}")
+                        rename_window.destroy()
+                    else:
+                        error_label.configure(text="A file with this name already exists.", text_color="red")
+                else:
+                    error_label.configure(text="Please enter a valid name.", text_color="red")
+
+            rename_window = ctk.CTkToplevel(self.master)
+            rename_window.title("Rename Document")
+            rename_window.geometry("300x170")
+            rename_window.resizable(False, False)
+
+            label = ctk.CTkLabel(rename_window, text="Enter new file name:")
+            label.pack(pady=(20, 2), padx=20)
+
+            entry = ctk.CTkEntry(rename_window, placeholder_text="New file name")
+            entry.pack(pady=5, padx=20, fill="x")
+
+            error_label = ctk.CTkLabel(rename_window, text="", text_color="red")
+            error_label.pack(pady=2)
+
+            button = ctk.CTkButton(rename_window, text="Rename", command=rename_action)
+            button.pack(pady=1)
+        else:
+            self.display_message("No document is currently open for renaming.", "red", duration=2000)
 
 
     def open_settings(self):
