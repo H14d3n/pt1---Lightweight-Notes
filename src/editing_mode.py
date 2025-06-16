@@ -150,6 +150,8 @@ def save_document(self, file_path, text_area):
     """
     Saves the current content of the text area back to the specified file.
     """
+    # Use self.current_file_path instead of file_path
+    file_path = self.current_file_path
     content = text_area.get("1.0", tk.END)
     try:
         with open(file_path, 'w') as file:
