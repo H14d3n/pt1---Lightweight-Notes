@@ -2,7 +2,6 @@ import tkinter as tk
 import customtkinter as ctk
 import csv
 import os, sys
-import platform
 from CTkMenuBar import CTkMenuBar, CustomDropdownMenu
 from PIL import Image
 from tkinter import filedialog, Text, PhotoImage
@@ -20,7 +19,7 @@ ToDo:
 """
 
 # Global configurations
-ctk.set_appearance_mode("dark") # (in ctk only availible "system", "light" and "dark")
+ctk.set_appearance_mode("dark") #("system", "light" or "dark")
 ctk.set_default_color_theme("dark-blue")
 ctk.deactivate_automatic_dpi_awareness()
 
@@ -205,6 +204,7 @@ class LightweightNotesApp:
             self.tk_font = ctk.CTkFont(family=selected_font, size=None)
 
         font_dialog = ctk.CTkToplevel(self.master)
+        font_dialog.resizable(False, False)
 
         fonts = list(tk.font.families())
         fonts_listbox = tk.Listbox(font_dialog)
