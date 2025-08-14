@@ -63,6 +63,7 @@ Welcome to **pt1 - Lightweight Notes**, an elegant way to manage your notes! Thi
 
 ### ❓ About
 - Learn about the app and its developers.
+- Shows the version
 
 ---
 
@@ -172,4 +173,5 @@ We’d love to hear your thoughts! Feel free to [open an issue](https://github.c
 
 ### 🌟 Star the Repo
 If you find this project helpful, don’t forget to give it a ⭐ on [GitHub](https://github.com/H14d3n/pt1---Lightweight-Notes)! 😊
+
 
