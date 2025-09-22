@@ -12,6 +12,7 @@ from PIL import Image, ImageTk
 from csv_manager import *
 from editing_mode import *
 from create_account import *
+import settings as settings_module
 
 """
 ToDo:
@@ -19,7 +20,10 @@ ToDo:
 """
 
 # Global configurations
-ctk.set_appearance_mode("dark") #("system", "light" or "dark")
+settings_mgr = settings_module.settings()
+app_settings = settings_mgr.read_settings()
+appearance_mode = app_settings.get('theme', 'dark')
+ctk.set_appearance_mode(appearance_mode) #("system", "light" or "dark")
 ctk.set_default_color_theme("dark-blue")
 ctk.deactivate_automatic_dpi_awareness()
 
@@ -46,6 +50,7 @@ class LightweightNotesApp:
         self.master.title("pt1 - Lightweight Notes")
         self.master.geometry('350x375')
         self.master.resizable(False, False)
+        self.settings_mgr = settings_mgr
         if os.name == "nt":  # if Windows
             self.master.iconbitmap(icon_path)
         else:  # if macOS or Linux
@@ -55,8 +60,10 @@ class LightweightNotesApp:
         self.about_window = None
         self.create_account_window = None
         self.editing = False 
+        self.font_family = self.settings_mgr.get("font_family", "System")
+        self.tk_font = ctk.CTkFont(family=self.font_family)
         self.init_login_screen()
-        self.tk_font = ctk.CTkFont(family="Arial Baltic", size=12)
+        
 
     def init_login_screen(self):
         """
@@ -198,10 +205,29 @@ class LightweightNotesApp:
         about_menu = CustomDropdownMenu(widget=opt_about)
         about_menu.add_option(option="About pt1 - Lightweight Notes", command=self.open_about)
 
+    def _save_setting(self, key, value):
+        """
+        Read-modify-write settings and keep self.settings in sync.
+        """
+        cfg = self.settings_mgr.read_settings()
+        cfg[key] = value
+        self.settings_mgr.write_settings(cfg)
+        self.settings = cfg
+
+    def _save_settings(self, updates: dict):
+        """
+        Batch update multiple settings.
+        """
+        cfg = self.settings_mgr.read_settings()
+        cfg.update(updates)
+        self.settings_mgr.write_settings(cfg)
+        self.settings = cfg    
+
     def change_font(self):
         def listbox_callback(event):
             selected_font = fonts_listbox.get(fonts_listbox.curselection())
             self.tk_font = ctk.CTkFont(family=selected_font, size=None)
+            self._save_setting("font_family", selected_font)
 
         font_dialog = ctk.CTkToplevel(self.master)
         font_dialog.resizable(False, False)
@@ -389,10 +415,14 @@ class LightweightNotesApp:
             settings_change_theme_label = ctk.CTkLabel(self.settings_window, text="Change Theme")
             settings_change_theme_label.place(relx=0.175, rely=0.05)
 
-            light_theme_button = ctk.CTkButton(self.settings_window, text="Light", command=lambda: ctk.set_appearance_mode("light"))
+            def set_theme(mode: str):
+                ctk.set_appearance_mode(mode)
+                self._save_setting("theme", mode)
+
+            light_theme_button = ctk.CTkButton(self.settings_window, text="Light", command=lambda: set_theme("light"))
             light_theme_button.place(relx=0.03, rely=0.2, relwidth=0.5, relheight=0.3)
 
-            dark_theme_button = ctk.CTkButton(self.settings_window, text="Dark", command=lambda: ctk.set_appearance_mode("dark"))
+            dark_theme_button = ctk.CTkButton(self.settings_window, text="Dark", command=lambda: set_theme("dark"))
             dark_theme_button.place(relx=0.03, rely=0.55, relwidth=0.5, relheight=0.3)
 
             settings_logout_label = ctk.CTkLabel(self.settings_window, text="Logout of Account")
@@ -437,7 +467,7 @@ class LightweightNotesApp:
             # Add content to the About window
             about_label = ctk.CTkLabel(
                 self.about_window, 
-                text="pt1 - Lightweight Notes\n-------------\nVersion 1.0\nCreated by Tizian Imseng", 
+                text="pt1 - Lightweight Notes\n-------------\nVersion 1.1\nCreated by Tizian Imseng", 
                 justify="center", 
                 font=('Bold Calibri', 14)
             )
