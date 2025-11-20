@@ -221,7 +221,8 @@ def search_word(text_area, word):
 
 def search_and_jump(text_area, word):
     """
-    Searches for the first occurrence of a word in the text area, highlights it, and scrolls to it.
+    Searches for the next occurrence of a word in the text area, highlights it, and scrolls to it.
+    If no previous search, starts from the beginning. If at the end, wraps to the first occurrence.
     """
     # Remove previous highlights
     text_area.tag_remove("highlight", "1.0", tk.END)
@@ -229,23 +230,26 @@ def search_and_jump(text_area, word):
     if not word:
         return
 
-    # Search for the word
-    start_pos = text_area.search(word, "1.0", stopindex=tk.END, nocase=True)
+    # Get current cursor position
+    current_pos = text_area.index(tk.INSERT)
+
+    # Search for the next occurrence after the current position
+    start_pos = text_area.search(word, current_pos, stopindex=tk.END, nocase=True)
+
+    # If not found, wrap around and search from the beginning
+    if not start_pos or start_pos == current_pos:
+        start_pos = text_area.search(word, "1.0", stopindex=tk.END, nocase=True)
 
     if start_pos:
-        # Calculate the end position of the found word
         end_pos = f"{start_pos}+{len(word)}c"
-
-        # Highlight the found word
         text_area.tag_add("highlight", start_pos, end_pos)
         text_area.tag_config("highlight", background="yellow", foreground="black")
-
-        # Scroll to the word
         text_area.see(start_pos)
-
-        # Set the cursor to the start of the word
-        text_area.mark_set(tk.INSERT, start_pos)
+        text_area.mark_set(tk.INSERT, end_pos)
         text_area.focus()
     else:
         # Word not found - Optionally, show a message to the user
-        self.display_message("Word not found.", "red", duration=2000)
+        try:
+            self.display_message("Word not found.", "red", duration=2000)
+        except Exception:
+            pass
