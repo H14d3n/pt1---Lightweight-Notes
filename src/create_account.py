@@ -3,9 +3,10 @@ import customtkinter as ctk
 from PIL import Image, ImageTk
 import csv  # Import CSV module
 import os
+from encryption import hash_password
 
 from init import *
-from csv_manager import csv_file_path
+from csv_manager import read_credentials_rows, write_credentials_rows
 
 def resource(relative_path):
     base_path = getattr(
@@ -105,39 +106,33 @@ def create_account(self, get_firstname, get_password, get_confirmation):
         return
 
     try:
-        # Open the CSV file in read mode to check for duplicates
+        existing_users = read_credentials_rows()
+    except (FileNotFoundError, ValueError):
         existing_users = []
-        with open(csv_file_path, mode='r', newline='') as file:
-            reader = csv.reader(file, delimiter=";")  # Ensure delimiter matches write operation
-            for row in reader:
-                existing_users.append(row)
 
-        # Check if the file has a header and extract content accordingly
-        if existing_users and get_firstname in [row[1] for row in existing_users[1:] if len(row) > 1]:
-            display_message(self, "An account with this name already exists.", "red", 2000)
-            return
-
-    except FileNotFoundError:
-        # If the file doesn't exist, start fresh
-        existing_users = []
+    if get_firstname in [row.get("first_name", "") for row in existing_users]:
+        display_message(self, "An account with this name already exists.", "red", 2000)
+        return
 
     # Generate a unique random UID
     existing_uids = set()
-    for row in existing_users[1:]:  # Skip the header row
-        if len(row) > 0:  # Ensure the row is not empty
-            try:
-                existing_uids.add(int(row[0]))  # Attempt to convert UID to integer
-            except ValueError:
-                pass  # Skip rows with invalid or non-numeric UIDs
+    for row in existing_users:
+        uid_val = row.get("uid", "")
+        try:
+            existing_uids.add(int(uid_val))
+        except (TypeError, ValueError):
+            pass
 
     new_uid = random.randint(100000, 999999)  # Generate a random 6-digit UID
     while new_uid in existing_uids:  # Ensure the UID is unique
         new_uid = random.randint(100000, 999999)
 
-    # Write the new account information to the CSV
-    with open(csv_file_path, mode='a', newline='') as file:
-        writer = csv.writer(file, delimiter=";")  # Use `;` as the delimiter
-        writer.writerow([new_uid, get_firstname, get_password])  # Pass data as a list
+    existing_users.append({
+        "uid": str(new_uid),
+        "first_name": get_firstname,
+        "password": hash_password(get_password),
+    })
+    write_credentials_rows(existing_users)
 
     display_message(self, f"Account created successfully! UID: {new_uid}", "green", 2000)
 

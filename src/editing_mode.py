@@ -1,53 +1,24 @@
 import tkinter as tk
 import customtkinter as ctk
-from encryption import generate_key, encrypt_message
+from encryption import decrypt_document_text, encrypt_document_text
 
 
 def encrypt_text(self, uid):
     """
-    Encrypts the text in the text area using a fixed seed, but leaves the first two lines unencrypted.
+    Encrypts the current text content with authenticated encryption.
     """
     plain_text = self.current_text_area.get("1.0", tk.END)
-    
-    # Split the content into lines
-    lines = plain_text.splitlines()
-    
-    # Keep the first two lines unchanged
-    lines_to_encrypt = lines[2:] 
-    content_to_encrypt = "\n".join(lines_to_encrypt)
-    
-    # Encryption
-    seed = 5901 * uid  # You can choose any seed you prefer
-    chars, key = generate_key(seed)  # Generate the key using the seed
-    cipher_text = encrypt_message(content_to_encrypt, chars, key)
-    
-    # Combine the unchanged first two lines with the encrypted content
-    encrypted_text = "\n".join(lines[:2]) + "\n" + cipher_text
-
-    # Replace the text in the text area with the encrypted message
-    self.current_text_area.delete("1.0", tk.END)
-    self.current_text_area.insert(tk.END, encrypted_text)
+    if not getattr(self, "session_password", None):
+        raise ValueError("No active session password available for encryption.")
+    return encrypt_document_text(plain_text, self.session_password)
 
 def decrypt_text(self, content, uid):
     """
-    Decrypts the given content using the same key and seed, but leaves the first two lines unencrypted.
+    Decrypts the given content using the authenticated encryption payload.
     """
-    # Split the content into lines
-    lines = content.splitlines()
-    
-    # Keep the first two lines unchanged
-    lines_to_decrypt = lines[2:]
-    content_to_decrypt = "\n".join(lines_to_decrypt)
-    
-    # Decrypting is simply encrypting again with the same key
-    seed = 5901 * uid
-    chars, key = generate_key(seed)  
-    decrypted_text = encrypt_message(content_to_decrypt, key, chars)  
-
-    # Combine the unchanged first two lines with the decrypted content
-    decrypted_message = "\n".join(lines[:2]) + "\n" + decrypted_text
-    
-    return decrypted_message
+    if not getattr(self, "session_password", None):
+        raise ValueError("No active session password available for decryption.")
+    return decrypt_document_text(content, self.session_password, uid)
 
 def editing_mode(self, file_path, uid):
     """
@@ -114,10 +85,7 @@ def on_window_close(self, file_path, text_area, uid):
     print("Window close event triggered")
     
     try:
-        # Encrypt the text content before closing
-        encrypt_text(self, uid)
-
-        # Save the encrypted content to the file
+        # Save encrypted content to disk before exiting.
         save_document(self, file_path, text_area)
 
         # Close the window
@@ -131,11 +99,7 @@ def back_to_dashboard(self, file_path, text_area, uid):
     Handles the action when the user clicks 'Back to Dashboard' button.
     Encrypts the text content before navigating back to the dashboard.
     """
-    # Encrypt the text content before going back to the dashboard
-    print("Encrypting text before navigating to the dashboard...")
-    encrypt_text(self, uid)  
-    
-    # Save the encrypted content to the file
+    print("Saving encrypted text before navigating to the dashboard...")
     save_document(self, file_path, text_area)
 
     # Unset the editing mode
@@ -150,10 +114,10 @@ def save_document(self, file_path, text_area):
     """
     # Use self.current_file_path instead of file_path
     file_path = self.current_file_path
-    content = text_area.get("1.0", tk.END)
     try:
+        encrypted_content = encrypt_text(self, self.uid)
         with open(file_path, 'w') as file:
-            file.write(content)
+            file.write(encrypted_content)
         self.display_message("Document saved successfully.", "green", duration=2000)
     except Exception as e:
         print(f"Error saving file: {e}")
@@ -246,8 +210,4 @@ def search_and_jump(text_area, word):
         text_area.mark_set(tk.INSERT, end_pos)
         text_area.focus()
     else:
-        # Word not found - Optionally, show a message to the user
-        try:
-            self.display_message("Word not found.", "red", duration=2000)
-        except Exception:
-            pass
+        text_area.bell()
