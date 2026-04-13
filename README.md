@@ -41,7 +41,7 @@ Welcome to **pt1 - Lightweight Notes**, an elegant way to manage your notes! Thi
 ![Dashboard](https://github.com/user-attachments/assets/5d20b79d-f049-46b1-937c-dcb1c58c17cc)
 
 ### Note Editor
-![Editor]([https://github.com/user-attachments/assets/bb0dc4d2-c0b1-40b9-bbfe-94ca7b23664f])
+![Editor](https://github.com/user-attachments/assets/bb0dc4d2-c0b1-40b9-bbfe-94ca7b23664f)
 
 
 ---
@@ -162,8 +162,12 @@ This project is licensed under the [MIT License](LICENSE).
 
 - **Python**: Core programming language.
 - **CustomTkinter**: For a modern and clean GUI.
-- **CSV**: For lightweight data storage.
-
+- **Pillow** (image/icon handling)
+- **Cryptography**
+- **Fernet** (encrypted credential store)
+- **AES-GCM** (note content encryption)
+- **Scrypt KDF** (password hashing and key derivation)
+- **CSV + io modules**
 ---
 
 ## 💬 Feedback
