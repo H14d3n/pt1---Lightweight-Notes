@@ -41,7 +41,8 @@ Welcome to **pt1 - Lightweight Notes**, an elegant way to manage your notes! Thi
 ![Dashboard](https://github.com/user-attachments/assets/5d20b79d-f049-46b1-937c-dcb1c58c17cc)
 
 ### Note Editor
-![Editor](https://github.com/user-attachments/assets/84e04ca2-bcd4-4281-b706-8a74f1550cd7)
+![Editor]([https://github.com/user-attachments/assets/bb0dc4d2-c0b1-40b9-bbfe-94ca7b23664f])
+
 
 ---
 
