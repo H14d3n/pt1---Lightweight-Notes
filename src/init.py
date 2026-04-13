@@ -488,7 +488,7 @@ class LightweightNotesApp:
             # Add content to the About window
             about_label = ctk.CTkLabel(
                 self.about_window, 
-                text="pt1 - Lightweight Notes\n-------------\nVersion 1.1\nCreated by Tizian Imseng", 
+                text="pt1 - Lightweight Notes\n-------------\nVersion 1.2\nCreated by Tizian Imseng", 
                 justify="center", 
                 font=('Bold Calibri', 14)
             )
