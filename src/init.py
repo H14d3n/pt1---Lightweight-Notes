@@ -7,6 +7,7 @@ from PIL import Image
 from tkinter import filedialog, Text, PhotoImage
 import datetime
 from PIL import Image, ImageTk
+from encryption import hash_password, is_password_hashed, verify_password
 
 # Import the CSV-Management module
 from csv_manager import *
@@ -60,6 +61,7 @@ class LightweightNotesApp:
         self.about_window = None
         self.create_account_window = None
         self.editing = False 
+        self.session_password = None
         self.font_family = self.settings_mgr.get("font_family", "System")
         self.tk_font = ctk.CTkFont(family=self.font_family)
         self.init_login_screen()
@@ -111,15 +113,34 @@ class LightweightNotesApp:
         """
         Checks the entered credentials.
         """
-        with open(csv_file_path, mode='r', newline='') as file:
-            reader = csv.DictReader(file, delimiter=';')
-            for row in reader:
-                if row['first_name'] == surname and row['password'] == password:
-                    self.display_message("Sign in was successful", "green")
-                    self.uid = row['uid']
-                    self.master.after(2000, self.init_application)
-                    return
+        try:
+            rows = read_credentials_rows()
+        except (FileNotFoundError, ValueError):
+            self.display_message("No account storage found.", "red")
+            return
+
+        updated = False
+        for row in rows:
+            stored_password = row.get('password', '')
+            if row.get('first_name') == surname and verify_password(password, stored_password):
+                if not is_password_hashed(stored_password):
+                    row['password'] = hash_password(password)
+                    updated = True
+
+                if updated:
+                    self._write_credentials(rows)
+
+                self.display_message("Sign in was successful", "green")
+                self.uid = row.get('uid')
+                self.session_password = password
+                self.master.after(2000, self.init_application)
+                return
+
         self.display_message("Invalid credentials.", "red")
+
+    def _write_credentials(self, rows):
+        """Persist the full credential table after in-place migration updates."""
+        write_credentials_rows(rows)
 
     def display_message(self, message, color, duration=None):
         """
@@ -493,6 +514,7 @@ class LightweightNotesApp:
         if not self.editing:
             print(f"Logged out User: {self.uid}")
             self.uid = None  # Clear the user ID
+            self.session_password = None
 
             # Reset Window
             self.master.geometry('350x375')  # Set to initial size of login screen
