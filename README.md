@@ -154,7 +154,7 @@ Welcome to **pt1 - Lightweight Notes**, an elegant way to manage your notes! Thi
 
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [GPL V3.0 License](LICENSE).
 
 ---
 
