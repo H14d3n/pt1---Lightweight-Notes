@@ -7,6 +7,7 @@ from encryption import hash_password
 
 from init import *
 from csv_manager import read_credentials_rows, write_credentials_rows
+from window_utils import place_child_window
 
 def resource(relative_path):
     base_path = getattr(
@@ -22,7 +23,7 @@ def init_creation(self):
     if self.create_account_window is None or not self.create_account_window.winfo_exists():
         self.create_account_window = ctk.CTkToplevel(self.master)
         self.create_account_window.title("pt1 Lightweight Notes - Create Account")
-        self.create_account_window.geometry("900x600")
+        place_child_window(self.master, self.create_account_window, 900, 600)
         if os.name == "nt":  # if Windows
             self.create_account_window.iconbitmap(icon_path)
         else:  # if Linux or macOS

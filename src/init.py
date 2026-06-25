@@ -8,6 +8,7 @@ from tkinter import filedialog, Text, PhotoImage
 import datetime
 from PIL import Image, ImageTk
 from encryption import hash_password, is_password_hashed, verify_password
+from window_utils import place_child_window, show_child_window
 
 # Import the CSV-Management module
 from csv_manager import *
@@ -63,7 +64,7 @@ class LightweightNotesApp:
         self.editing = False 
         self.session_password = None
         self.font_family = self.settings_mgr.get("font_family", "System")
-        self.tk_font = ctk.CTkFont(family=self.font_family)
+        self.tk_font = ctk.CTkFont(family=self.font_family, size=EDITOR_FONT_SIZE)
         self.init_login_screen()
         
 
@@ -245,20 +246,76 @@ class LightweightNotesApp:
         self.settings = cfg    
 
     def change_font(self):
-        def listbox_callback(event):
-            selected_font = fonts_listbox.get(fonts_listbox.curselection())
-            self.tk_font = ctk.CTkFont(family=selected_font, size=None)
+        def apply_font(selected_font):
+            self.font_family = selected_font
+            self.tk_font = ctk.CTkFont(family=selected_font, size=EDITOR_FONT_SIZE)
+            if getattr(self, "current_text_area", None) is not None:
+                self.current_text_area.configure(font=self.tk_font)
+                try:
+                    self.current_text_area._textbox.configure(insertwidth=2)
+                except AttributeError:
+                    pass
             self._save_setting("font_family", selected_font)
+            selected_label.configure(text=selected_font)
+            preview_label.configure(font=ctk.CTkFont(family=selected_font, size=18))
+            render_font_buttons(search_entry.get())
+
+        def render_font_buttons(filter_text=""):
+            for child in fonts_frame.winfo_children():
+                child.destroy()
+
+            query = filter_text.strip().lower()
+            visible_fonts = [font for font in fonts if query in font.lower()]
+            for font_name in visible_fonts:
+                is_selected = font_name == self.font_family
+                button = ctk.CTkButton(
+                    fonts_frame,
+                    text=font_name,
+                    anchor="w",
+                    height=34,
+                    corner_radius=6,
+                    fg_color=("#D8E8FF", "#1F538D") if is_selected else "transparent",
+                    hover_color=("#E7F0FF", "#2B5D92"),
+                    text_color=("#111111", "#F4F4F4"),
+                    command=lambda name=font_name: apply_font(name),
+                )
+                button.pack(fill="x", padx=6, pady=2)
+
+            if not visible_fonts:
+                empty_label = ctk.CTkLabel(fonts_frame, text="No fonts found", text_color=("#555555", "#AAAAAA"))
+                empty_label.pack(padx=10, pady=20)
 
         font_dialog = ctk.CTkToplevel(self.master)
+        font_dialog.title("Change Font")
+        place_child_window(self.master, font_dialog, 360, 460)
         font_dialog.resizable(False, False)
 
-        fonts = list(tk.font.families())
-        fonts_listbox = tk.Listbox(font_dialog)
-        fonts_listbox.pack(padx=10, pady=10)
-        for f in fonts:
-            fonts_listbox.insert(ctk.END, f)
-        fonts_listbox.bind("<<ListboxSelect>>", listbox_callback)
+        fonts = sorted(tk.font.families(), key=str.lower)
+
+        header = ctk.CTkLabel(font_dialog, text="Choose Editor Font", font=ctk.CTkFont(size=18, weight="bold"))
+        header.pack(anchor="w", padx=16, pady=(16, 6))
+
+        selected_label = ctk.CTkLabel(font_dialog, text=self.font_family, text_color=("#555555", "#BBBBBB"))
+        selected_label.pack(anchor="w", padx=16, pady=(0, 10))
+
+        search_entry = ctk.CTkEntry(font_dialog, placeholder_text="Search fonts")
+        search_entry.pack(fill="x", padx=16, pady=(0, 10))
+
+        preview_label = ctk.CTkLabel(
+            font_dialog,
+            text="The quick brown fox",
+            height=44,
+            corner_radius=6,
+            fg_color=("#F2F2F2", "#2B2B2B"),
+            font=ctk.CTkFont(family=self.font_family, size=18),
+        )
+        preview_label.pack(fill="x", padx=16, pady=(0, 10))
+
+        fonts_frame = ctk.CTkScrollableFrame(font_dialog, corner_radius=6)
+        fonts_frame.pack(fill="both", expand=True, padx=16, pady=(0, 16))
+
+        search_entry.bind("<KeyRelease>", lambda event: render_font_buttons(search_entry.get()))
+        render_font_buttons()
 
     def save_current_document(self):
         """
@@ -398,7 +455,7 @@ class LightweightNotesApp:
 
             rename_window = ctk.CTkToplevel(self.master)
             rename_window.title("Rename Document")
-            rename_window.geometry("300x170")
+            place_child_window(self.master, rename_window, 300, 170)
             rename_window.resizable(False, False)
 
             label = ctk.CTkLabel(rename_window, text="Enter new file name:")
@@ -424,11 +481,11 @@ class LightweightNotesApp:
         if self.settings_window is None or not self.settings_window.winfo_exists():
             self.settings_window = ctk.CTkToplevel(self.master)
             self.settings_window.title("pt1 Lightweight Notes - Settings")
-            self.settings_window.geometry("400x200")
+            place_child_window(self.master, self.settings_window, 400, 200)
             if os.name == "nt":  # if Windows
                 self.settings_window.iconbitmap(icon_path)
             self.settings_window.resizable(False, False)
-            self.settings_window.after(100, self.settings_window.lift)
+            self.settings_window.after(100, lambda: show_child_window(self.master, self.settings_window))
 
             # Add close callback to set reference to None when the window is closed
             self.settings_window.protocol("WM_DELETE_WINDOW", self.on_settings_close)
@@ -439,6 +496,7 @@ class LightweightNotesApp:
             def set_theme(mode: str):
                 ctk.set_appearance_mode(mode)
                 self._save_setting("theme", mode)
+                show_child_window(self.master, self.settings_window)
 
             light_theme_button = ctk.CTkButton(self.settings_window, text="Light", command=lambda: set_theme("light"))
             light_theme_button.place(relx=0.03, rely=0.2, relwidth=0.5, relheight=0.3)
@@ -451,6 +509,8 @@ class LightweightNotesApp:
 
             settings_logout_button = ctk.CTkButton(self.settings_window, text="𓉞", font=('Calibri', 50), command=self.logout)
             settings_logout_button.place(relx=0.625, rely=0.2, relwidth=0.3, relheight=0.65)
+        else:
+            show_child_window(self.master, self.settings_window)
 
     
     def on_settings_close(self):
@@ -458,8 +518,9 @@ class LightweightNotesApp:
         Handles the event when the settings window is closed, ensuring the application
         knows the window is no longer open.
         """
-        self.settings_window.destroy()
-        self.settings_window = None
+        if self.settings_window is not None:
+            self.settings_window.destroy()
+            self.settings_window = None
 
     def handle_exit(self):
         """
@@ -480,7 +541,7 @@ class LightweightNotesApp:
         if self.about_window is None or not self.about_window.winfo_exists():
             self.about_window = ctk.CTkToplevel(self.master)
             self.about_window.title("pt1 Lightweight Notes - About")
-            self.about_window.geometry("210x105")
+            place_child_window(self.master, self.about_window, 210, 105)
             if os.name == "nt":  # if Windows
                 self.about_window.iconbitmap(icon_path)
             self.about_window.resizable(False, False)
@@ -496,7 +557,9 @@ class LightweightNotesApp:
 
             # Intercept the window close event
             self.about_window.protocol("WM_DELETE_WINDOW", self.close_about)
-            self.about_window.after(100, self.about_window.lift)
+            self.about_window.after(100, lambda: show_child_window(self.master, self.about_window))
+        else:
+            show_child_window(self.master, self.about_window)
 
     def close_about(self):
         """
